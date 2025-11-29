@@ -1,0 +1,166 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Admin\\source\\repos\\FrontB\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|d:\\admin\\source\\repos\\frontb\\frontb\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|solutionrelative:frontb\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|d:\\admin\\source\\repos\\frontb\\frontb\\pages\\blankets.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|solutionrelative:frontb\\pages\\blankets.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|d:\\admin\\source\\repos\\frontb\\frontb\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|solutionrelative:frontb\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|d:\\admin\\source\\repos\\frontb\\frontb\\helpers\\filterhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|solutionrelative:frontb\\helpers\\filterhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|d:\\admin\\source\\repos\\frontb\\frontb\\pages\\blankets.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|solutionrelative:frontb\\pages\\blankets.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|d:\\admin\\source\\repos\\frontb\\frontb\\helpers\\requests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|solutionrelative:frontb\\helpers\\requests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|d:\\admin\\source\\repos\\frontb\\frontb\\classes\\blanketsclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|solutionrelative:frontb\\classes\\blanketsclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|d:\\admin\\source\\repos\\frontb\\frontb\\helpers\\filterdatacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A13BE82D-C8B7-4C45-87D7-14348F8793FF}|FrontB\\FrontB.csproj|solutionrelative:frontb\\helpers\\filterdatacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 10,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:715539062:0:{83107a3e-496a-485e-b455-16ddb978e55e}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "FilterDataContext.cs",
+              "DocumentMoniker": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\Helpers\\FilterDataContext.cs",
+              "RelativeDocumentMoniker": "FrontB\\Helpers\\FilterDataContext.cs",
+              "ToolTip": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\Helpers\\FilterDataContext.cs",
+              "RelativeToolTip": "FrontB\\Helpers\\FilterDataContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T14:02:59.659Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FilterHelper.cs",
+              "DocumentMoniker": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\Helpers\\FilterHelper.cs",
+              "RelativeDocumentMoniker": "FrontB\\Helpers\\FilterHelper.cs",
+              "ToolTip": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\Helpers\\FilterHelper.cs",
+              "RelativeToolTip": "FrontB\\Helpers\\FilterHelper.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAEwEQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T14:02:56.905Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Requests.cs",
+              "DocumentMoniker": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\Helpers\\Requests.cs",
+              "RelativeDocumentMoniker": "FrontB\\Helpers\\Requests.cs",
+              "ToolTip": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\Helpers\\Requests.cs",
+              "RelativeToolTip": "FrontB\\Helpers\\Requests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T11:50:08.395Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Blankets.xaml",
+              "DocumentMoniker": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\Pages\\Blankets.xaml",
+              "RelativeDocumentMoniker": "FrontB\\Pages\\Blankets.xaml",
+              "ToolTip": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\Pages\\Blankets.xaml",
+              "RelativeToolTip": "FrontB\\Pages\\Blankets.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-27T09:16:17.087Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Blankets.xaml.cs",
+              "DocumentMoniker": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\Pages\\Blankets.xaml.cs",
+              "RelativeDocumentMoniker": "FrontB\\Pages\\Blankets.xaml.cs",
+              "ToolTip": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\Pages\\Blankets.xaml.cs",
+              "RelativeToolTip": "FrontB\\Pages\\Blankets.xaml.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAACYAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-26T06:41:54.605Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BlanketsClass.cs",
+              "DocumentMoniker": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\Classes\\BlanketsClass.cs",
+              "RelativeDocumentMoniker": "FrontB\\Classes\\BlanketsClass.cs",
+              "ToolTip": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\Classes\\BlanketsClass.cs",
+              "RelativeToolTip": "FrontB\\Classes\\BlanketsClass.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-25T12:04:04.493Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "FrontB\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\MainWindow.xaml.cs",
+              "RelativeToolTip": "FrontB\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAABAAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-25T09:54:54.518Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "FrontB\\MainWindow.xaml",
+              "ToolTip": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\MainWindow.xaml",
+              "RelativeToolTip": "FrontB\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-25T09:48:09.979Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

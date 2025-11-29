@@ -1,0 +1,592 @@
+﻿<Page x:Class="FrontB.Pages.Blankets"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"      
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:syncfusion="http://schemas.syncfusion.com/wpf"   
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FrontB.Pages">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/DataGridTemplates.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid Background="#e8e8e8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock Foreground="Black" FontFamily="Poppins" FontSize="16"
+                FontWeight="Medium" Text="Hasaba alyş /" Opacity="0.55"
+                Margin="20 10 0 0" Width="100" Height="20"
+                VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            <TextBlock Foreground="#007702" FontFamily="Poppins" FontSize="16"
+                FontWeight="UltraBold" Text="Ykrar hatlar" Margin="120 10 0 0"
+                VerticalAlignment="Top" Height="20" Width="100"
+                HorizontalAlignment="Left"/>
+        </Grid>
+        <Grid Grid.Row="1" Margin="16 6 16 6">
+            <Border CornerRadius="16" Background="White">
+                <Grid VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Stretch="Uniform" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid>
+                            <syncfusion:SfCircularProgressBar Name="Progressbar" Height="150"
+                                IndicatorOuterRadius="0.7" Grid.Row="0" FontSize="20"                                    
+                                IndicatorInnerRadius="0.55" TrackInnerRadius="0.55"
+                                TrackOuterRadius="0.7" AnimationDuration="4" Width="150"
+                                ProgressColor="#F90000" ShowProgressValue="True"
+                                VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="2" VerticalAlignment="Bottom" 
+                                Background="Transparent" HorizontalAlignment="Center"
+                                Text="Ähli atlar" Foreground="Black" FontSize="24"/>
+                        </Grid>
+                    </Viewbox>
+                    <Viewbox Stretch="Uniform" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid>
+                            <syncfusion:SfCircularProgressBar Name="Progressbar1" Grid.Row="0"
+                                IndicatorOuterRadius="0.7" IndicatorInnerRadius="0.55"              
+                                TrackOuterRadius="0.7" TrackInnerRadius="0.55" FontSize="20"
+                                AnimationDuration="4" ProgressColor="#ffc658"
+                                ShowProgressValue="True" VerticalAlignment="Top"    
+                                HorizontalAlignment="Center" Width="150" Height="150"/>
+                            <TextBlock Grid.Row="2" HorizontalAlignment="Center"
+                                Text="Barlanan atlar" VerticalAlignment="Bottom"
+                                FontSize="24" Background="Transparent"
+                                Foreground="Black"/>
+                        </Grid>
+                    </Viewbox>
+                    <Viewbox Stretch="Uniform" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid>
+                            <syncfusion:SfCircularProgressBar Name="Progressbar2" Grid.Row="0"
+                                IndicatorOuterRadius="0.7" IndicatorInnerRadius="0.55"                                   
+                                TrackOuterRadius="0.7" TrackInnerRadius="0.55" FontSize="20"
+                                AnimationDuration="4" ProgressColor="#00b25d"
+                                ShowProgressValue="True" VerticalAlignment="Top"
+                                HorizontalAlignment="Center" Width="150" Height="150"/>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                <TextBlock Grid.Row="2" Text="Ýyllyk doguluş" 
+                                    Background="Transparent" Foreground="Black"                        
+                                    FontSize="24"/>
+                                <ComboBox Name="YearComboBox" MinWidth="60"                                   
+                                    SelectionChanged="YearComboBox_SelectionChanged"
+                                    Margin="20 0 0 0" FontSize="24" Height="30" 
+                                    FontFamily="Poppins" BorderThickness="0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Viewbox>
+                </Grid>
+            </Border>
+        </Grid>
+        <Border  Grid.Row="2" Background="White" Margin="16 16 16 16" CornerRadius="12">
+            <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill">
+                <Grid Margin="50 50 50 50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" Margin="10">
+                        <TextBlock
+                            Foreground="#010101"
+                            FontFamily="Poppins"                
+                            FontSize="16"
+                            Text="Ykrar hatyň nomeri"
+                            Margin="30 15 0 0"
+                            Width="150"
+                            Height="20"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"/>
+                        <Border 
+                            CornerRadius="8"
+                            Width="250"
+                            Height="35"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Margin="30 40 0 0"
+                            Background="#B1C7FF">
+                            <Border
+                                CornerRadius="8"
+                                Width="250"
+                                Height="34"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"                            
+                                Background="#EFF3FD">
+                                <TextBox
+                                    Name="tb_hat"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    TextChanged="tb_hat_TextChanged"
+                                    Width="248"
+                                    Height="34" 
+                                    Background="Transparent"
+                                    Padding="6"
+                                    FontSize="18"
+                                    BorderThickness="0"
+                                    materialDesign:HintAssist.Hint="Diňe nomer ýazmaly"/>
+                            </Border>
+                        </Border>
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="10">
+                        <TextBlock
+                            Foreground="#010101"
+                            FontFamily="Poppins"
+                            FontSize="16"                                
+                            Text="Ykrar hatyň senesi"
+                            Margin="30 15 0 0 "
+                            Width="150"
+                            Height="20"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"/>
+                        <Border 
+                            CornerRadius="8"
+                            Width="250"
+                            Height="35"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Margin="30 40 0 0"
+                            Background="#B1C7FF">
+                            <Border
+                                CornerRadius="8"
+                                Width="250"
+                                Height="34"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"                            
+                                Background="#EFF3FD">
+                                <DatePicker
+                                    Name="tb_ysene"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    SelectedDateFormat="Short"                               
+                                    FirstDayOfWeek="Monday"
+                                    Width="248"
+                                    Height="34"                                
+                                    SelectedDateChanged="tb_ysene_SelectedDateChanged"
+                                    Background="Transparent"
+                                    Padding="6"
+                                    FontSize="18"
+                                    BorderThickness="0"
+                                    Language="tk-TM"
+                                    materialDesign:HintAssist.Hint="Senäni saýlaň">
+                                </DatePicker>
+                            </Border>
+                        </Border>
+                    </Grid>
+                    <Grid Grid.Column="2" Margin="10">
+                        <TextBlock
+                            Foreground="#010101"
+                            FontFamily="Poppins"
+                            FontSize="16"                            
+                            Text="Atyň sany"
+                            Margin="30 15 0 0 "
+                            Width="150"
+                            Height="20"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"/>
+                        <Border CornerRadius="8"
+                            Width="250"
+                            Height="35"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Margin="30 40 0 0"
+                            Background="#B1C7FF">
+                            <Border
+                                CornerRadius="8"
+                                Width="248"
+                                Height="34"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"                            
+                                Background="#EFF3FD">
+                                <TextBox
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Width="248"
+                                    Height="34"
+                                    Name="tb_san"
+                                    TextChanged="tb_san_TextChanged"
+                                    Background="Transparent"
+                                    Padding="6"
+                                    FontSize="18"
+                                    BorderThickness="0"
+                                    materialDesign:HintAssist.Hint="Y/h-daky atlaryň sany"/>
+                            </Border>
+                        </Border>
+                    </Grid>
+                    <Grid Grid.Column="3" Margin="10">
+                        <Button
+                            Cursor="Hand"
+                            Name="Addbtn"
+                            Click="Addbtn_Click"
+                            Width="144"
+                            Height="38"
+                            FontSize="18"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Margin="30 40 0 0"
+                            Visibility="Visible"
+                            Foreground="White"
+                            FontFamily="Montserrat"
+                            Background="#5F66E9"
+                            BorderThickness="0"
+                            Content="+  Goşmak">
+                            <Button.Resources>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="border"
+                                                    CornerRadius="6"
+                                                    BorderThickness="1"
+                                                    Background="#5F66E9"
+                                                    BorderBrush="#5F66E9">
+                                                    <ContentPresenter x:Name="ButtonContentPresenter"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Center" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#5F66E9"/>
+                                                        <Setter TargetName="border" Property="TextElement.Foreground" Value="White" />
+                                                        <Setter TargetName="border" Property="BorderBrush" Value="#5F66E9" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        <Button
+                            Cursor="Hand"
+                            Name="Editbtn"
+                            Click="Editbtn_Click"
+                            Width="144"
+                            Height="38"
+                            FontSize="18"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Margin="30 40 0 0"
+                            Visibility="Collapsed"
+                            Foreground="White"
+                            FontFamily="Montserrat"
+                            Background="#00b25d"
+                            BorderThickness="0"
+                            Content="Ýatda sakla">
+                            <Button.Resources>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border x:Name="border"
+                                                    CornerRadius="6"
+                                                    BorderThickness="1"
+                                                    Background="#00b25d"
+                                                    BorderBrush="#00b25d"  >
+                                                    <ContentPresenter x:Name="ButtonContentPresenter"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#00b25d"/>
+                                                        <Setter TargetName="border" Property="TextElement.Foreground" Value="White" />
+                                                        <Setter TargetName="border" Property="BorderBrush" Value="#00b25d" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Viewbox>
+        </Border>
+        <Grid Grid.Row="3">
+            <Border Margin="20 0 20 10" CornerRadius="12" Background="White">
+                <DataGrid x:Name="dataGrid_Ykrarhatlar" 
+                    RowStyle="{DynamicResource DataGridRowStyle1}" 
+                    ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
+                    CellStyle="{DynamicResource DataGridCellStyle1}"                        
+                    AlternationCount="2" IsReadOnly="True"
+                    VerticalScrollBarVisibility="Visible"   
+                    Style="{DynamicResource DataGridStyle1}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="190" MinWidth="150" MaxWidth="500" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="180" Name="TB"
+                                        Loaded="Expander_Loaded"
+                                        MouseRightButtonDown="Expander_MouseRightButtonDown" >
+                                        <Expander.Header>T/b</Expander.Header>
+                                        <StackPanel  Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}"
+                                                        Name="Searchtb"
+                                                        Loaded="SearchTextBox_Loaded"
+                                                        TextChanged="Searchtb_TextChanged"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv
+                                                        Style="{StaticResource FilterComboBox}"
+                                                        Name="Tbcombo"
+                                                        Loaded="ComboBox_Loaded"                                                                                                      
+                                                        SelectionChanged="ComboBox_SelectionChanged"
+                                                        ItemsSource= "{Binding DataContext.FilterItems, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}"
+                                                Name="OKbtn"
+                                                Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource DataGridTextColumnStyle}"
+                                        Text="{Binding Counter}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="190" MinWidth="150" MaxWidth="500" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="180" Name="Yhat"
+                                        Loaded="Expander_Loaded"
+                                        MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.Header>Y/hat №</Expander.Header>
+                                        <StackPanel  Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}"                                    
+                                                        Loaded="SearchTextBox_Loaded"
+                                                        Name="Searchtb2"
+                                                        TextChanged="Searchtb_TextChanged"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv Style="{StaticResource FilterComboBox}"                                                          
+                                                        Name="Tbcombo2"
+                                                        Loaded="ComboBox_Loaded"
+                                                        SelectionChanged="ComboBox_SelectionChanged"
+                                                        ItemsSource= "{Binding DataContext.FilterItems2, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                                    </syncfusion:ComboBoxAdv>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}"
+                                                Name="OKbtn"
+                                                Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource DataGridTextColumnStyle}"
+                                        Text="{Binding Ykrarhat}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="190" MinWidth="150" MaxWidth="500" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="180" Name="Ysene"
+                                        Loaded="Expander_Loaded"
+                                        MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.Header>Y/hat sene</Expander.Header>
+                                        <StackPanel  Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}"
+                                                        Name="Searchtb3"
+                                                        Loaded="SearchTextBox_Loaded"
+                                                        TextChanged="Searchtb_TextChanged"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv Style="{StaticResource FilterComboBox}"                                                            
+                                                        Name="Tbcombo3"
+                                                        Loaded="ComboBox_Loaded"                                               
+                                                        SelectionChanged="ComboBox_SelectionChanged"
+                                                        ItemsSource= "{Binding DataContext.FilterItems3, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}"
+                                                Cursor="Hand"
+                                                Name="OKbtn"
+                                                Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource DataGridTextColumnStyle}"
+                                        Text="{Binding Ysene}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="190" MinWidth="150" MaxWidth="500" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="180" Name="San"
+                                        Loaded="Expander_Loaded"
+                                        MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.Header>At Sany</Expander.Header>
+                                        <StackPanel>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}" 
+                                                        Loaded="SearchTextBox_Loaded"
+                                                        Name="Searchtb4"
+                                                        TextChanged="Searchtb_TextChanged"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv Style="{StaticResource FilterComboBox}"                                                            
+                                                        Name="Tbcombo4"
+                                                        Loaded="ComboBox_Loaded"
+                                                        SelectionChanged="ComboBox_SelectionChanged"
+                                                        ItemsSource= "{Binding DataContext.FilterItems4, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}"                                                    
+                                                Name="OKbtn"
+                                                Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource DataGridTextColumnStyle}"                                            
+                                        Text="{Binding San}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="190" MinWidth="150" MaxWidth="500" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="180" Name="Atsan"
+                                        Loaded="Expander_Loaded"
+                                        MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.Header>Girizlen at san</Expander.Header>
+                                        <StackPanel  Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}"
+                                                        Name="Searchtb5"
+                                                        Loaded="SearchTextBox_Loaded"
+                                                        TextChanged="Searchtb_TextChanged"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv Style="{StaticResource FilterComboBox}"                                                          
+                                  Name="Tbcombo5"
+                                  Loaded="ComboBox_Loaded"
+                                  SelectionChanged="ComboBox_SelectionChanged"
+                                  ItemsSource= "{Binding DataContext.FilterItems5, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}"                                                    
+                            Name="OKbtn"
+                            Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource DataGridTextColumnStyle}"
+                    Text="{Binding Atsan}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="300" CanUserResize="False"/>
+                        <DataGridTemplateColumn Width="120" CanUserResize="False">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal"  
+                                                    HorizontalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="FileFindOutline"                                                                   
+                                                Name="Viewicon"
+                                                Style="{StaticResource Viewicon}"/>
+                                        <Button Style="{StaticResource ViewButton}"    
+                                                    Name="View" 
+                                                    Content="Görmek"
+                                                    Click="View_Click"                                                    
+                                                    Cursor="Hand"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="120" CanUserResize="False">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate >
+                                    <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="FileEdit"
+                                                Name="Editicon"                                                                   
+                                                Style="{StaticResource gridButtonIcon}"/>
+                                        <Button Style="{StaticResource gridEditButton}"    
+                                                Name="Edit" Click="Edit_Click"
+                                                Content="Üýtgetmek"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalAlignment="Center"                                                
+                                                Cursor="Hand"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="120" CanUserResize="False">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" 
+                                                    HorizontalAlignment="Center" >
+                                        <materialDesign:PackIcon Kind="DeleteOutline" 
+                                                Style="{StaticResource gridButtonIcon2}"/>
+                                        <Button Content="Pozmak"
+                                                Style="{StaticResource gridRemoveButton}" 
+                                                Name="Delete" 
+                                                Cursor="Hand"
+                                                Click="Delete_Click"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

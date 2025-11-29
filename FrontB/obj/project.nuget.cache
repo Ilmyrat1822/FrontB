@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "3U8kKRccRjY=",
+  "success": true,
+  "projectFilePath": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\FrontB.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\materialdesigncolors\\5.3.0\\materialdesigncolors.5.3.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\materialdesignthemes\\5.3.0\\materialdesignthemes.5.3.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.77\\microsoft.xaml.behaviors.wpf.1.1.77.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\syncfusion.licensing\\31.2.15\\syncfusion.licensing.31.2.15.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\syncfusion.sfbusyindicator.wpf\\31.2.15\\syncfusion.sfbusyindicator.wpf.31.2.15.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\syncfusion.sfprogressbar.wpf\\31.2.15\\syncfusion.sfprogressbar.wpf.31.2.15.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\syncfusion.shared.wpf\\31.2.15\\syncfusion.shared.wpf.31.2.15.nupkg.sha512"
+  ],
+  "logs": []
+}

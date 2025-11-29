@@ -1,0 +1,165 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "FrontB/1.0.0": {
+        "dependencies": {
+          "MaterialDesignColors": "5.3.0",
+          "MaterialDesignThemes": "5.3.0",
+          "Newtonsoft.Json": "13.0.4",
+          "Syncfusion.Licensing": "31.2.15",
+          "Syncfusion.SfBusyIndicator.WPF": "31.2.15",
+          "Syncfusion.SfProgressBar.WPF": "31.2.15"
+        },
+        "runtime": {
+          "FrontB.dll": {}
+        }
+      },
+      "MaterialDesignColors/5.3.0": {
+        "runtime": {
+          "lib/net8.0-windows7.0/MaterialDesignColors.dll": {
+            "assemblyVersion": "5.3.0.0",
+            "fileVersion": "5.3.0.0"
+          }
+        }
+      },
+      "MaterialDesignThemes/5.3.0": {
+        "dependencies": {
+          "MaterialDesignColors": "5.3.0",
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.77"
+        },
+        "runtime": {
+          "lib/net8.0-windows7.0/MaterialDesignThemes.Wpf.dll": {
+            "assemblyVersion": "5.3.0.0",
+            "fileVersion": "5.3.0.0"
+          }
+        }
+      },
+      "Microsoft.Xaml.Behaviors.Wpf/1.1.77": {
+        "runtime": {
+          "lib/net6.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.77.27830"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.4": {
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.4.30916"
+          }
+        }
+      },
+      "Syncfusion.Licensing/31.2.15": {
+        "runtime": {
+          "lib/net9.0/Syncfusion.Licensing.dll": {
+            "assemblyVersion": "31.2.15.0",
+            "fileVersion": "31.2.15.0"
+          }
+        }
+      },
+      "Syncfusion.SfBusyIndicator.WPF/31.2.15": {
+        "dependencies": {
+          "Syncfusion.Licensing": "31.2.15"
+        },
+        "runtime": {
+          "lib/net9.0-windows7.0/Syncfusion.SfBusyIndicator.WPF.dll": {
+            "assemblyVersion": "31.2.15.0",
+            "fileVersion": "31.2.15.0"
+          }
+        }
+      },
+      "Syncfusion.SfProgressBar.WPF/31.2.15": {
+        "dependencies": {
+          "Syncfusion.Licensing": "31.2.15",
+          "Syncfusion.Shared.WPF": "31.2.15"
+        },
+        "runtime": {
+          "lib/net9.0-windows7.0/Syncfusion.SfProgressBar.WPF.dll": {
+            "assemblyVersion": "31.2.15.0",
+            "fileVersion": "31.2.15.0"
+          }
+        }
+      },
+      "Syncfusion.Shared.WPF/31.2.15": {
+        "dependencies": {
+          "Syncfusion.Licensing": "31.2.15"
+        },
+        "runtime": {
+          "lib/net9.0-windows7.0/Syncfusion.Shared.WPF.dll": {
+            "assemblyVersion": "31.2.15.0",
+            "fileVersion": "31.2.15.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FrontB/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MaterialDesignColors/5.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2+gcPqbWB3f9vvpCXb7SMhObt9aYSIIIkycYjnctnq4smAfzflwTcMQbG3UjiUYKoTbAy4+RXO0tugLX33YhiA==",
+      "path": "materialdesigncolors/5.3.0",
+      "hashPath": "materialdesigncolors.5.3.0.nupkg.sha512"
+    },
+    "MaterialDesignThemes/5.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jIKeR2JzUGslVn2EU5bvAXj4EJpw3wf289VsTf0evtg/czFIomPswqBGfpO7In67rpFwQzR+E+/df/Q9i43a0Q==",
+      "path": "materialdesignthemes/5.3.0",
+      "hashPath": "materialdesignthemes.5.3.0.nupkg.sha512"
+    },
+    "Microsoft.Xaml.Behaviors.Wpf/1.1.77": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MCu674ZETgU18EbxfwIlRpUPJ02YbZenLsMCXTkpeA7KUBpXfFaOUDlEO+7UWu5AFnUoydg+aQENJkuaZPheMQ==",
+      "path": "microsoft.xaml.behaviors.wpf/1.1.77",
+      "hashPath": "microsoft.xaml.behaviors.wpf.1.1.77.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pdgNNMai3zv51W5aq268sujXUyx7SNdE2bj1wZcWjAQrKMFZV260lbqYop1d2GM67JI1huLRwxo9ZqnfF/lC6A==",
+      "path": "newtonsoft.json/13.0.4",
+      "hashPath": "newtonsoft.json.13.0.4.nupkg.sha512"
+    },
+    "Syncfusion.Licensing/31.2.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9y2HMFjFT0pBxtl4l+5wcWtyiot+eff8QhVtX1B5Zwe8Y3u8jl9WCIaAgUPsNQr4JarIwqCbJrdiH5Ou0WweLQ==",
+      "path": "syncfusion.licensing/31.2.15",
+      "hashPath": "syncfusion.licensing.31.2.15.nupkg.sha512"
+    },
+    "Syncfusion.SfBusyIndicator.WPF/31.2.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DenFtuGdjHB/Rd2X8foEfS46A7FjhyaOams9vLDf0IZeKYFAL9RluKxxV+7mT9MNnXVlT/4t/WlRrul+36eqGA==",
+      "path": "syncfusion.sfbusyindicator.wpf/31.2.15",
+      "hashPath": "syncfusion.sfbusyindicator.wpf.31.2.15.nupkg.sha512"
+    },
+    "Syncfusion.SfProgressBar.WPF/31.2.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-eyQjlbyXRqY9qdi62PUsiICYT9XqY2Q1LC5pdf82pN8pavrQ8V/wzDij06F0tLzoV5qW5OTxUVfIUVCJqRjYwQ==",
+      "path": "syncfusion.sfprogressbar.wpf/31.2.15",
+      "hashPath": "syncfusion.sfprogressbar.wpf.31.2.15.nupkg.sha512"
+    },
+    "Syncfusion.Shared.WPF/31.2.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2JdmMjoW4M+Exn5qyRBDcCNJ8ZtdEUnyDoEjX0R77Uv0VFajI3nl8lIwARg44niSS636sqoGILV7Gu8wbIqw4g==",
+      "path": "syncfusion.shared.wpf/31.2.15",
+      "hashPath": "syncfusion.shared.wpf.31.2.15.nupkg.sha512"
+    }
+  }
+}
