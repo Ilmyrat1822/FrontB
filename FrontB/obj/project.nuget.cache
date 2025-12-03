@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "3U8kKRccRjY=",
+  "dgSpecHash": "MRRH2dMH5SI=",
   "success": true,
   "projectFilePath": "D:\\Admin\\source\\repos\\FrontB\\FrontB\\FrontB.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\extended.wpf.toolkit\\5.0.0\\extended.wpf.toolkit.5.0.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\materialdesigncolors\\5.3.0\\materialdesigncolors.5.3.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\materialdesignthemes\\5.3.0\\materialdesignthemes.5.3.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.77\\microsoft.xaml.behaviors.wpf.1.1.77.nupkg.sha512",

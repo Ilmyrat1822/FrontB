@@ -195,9 +195,9 @@
                 Stretch="Uniform" HorizontalAlignment="Stretch">
                     <Grid Grid.Row="0" Background="White">
                         <StackPanel Orientation="Horizontal"
-                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch">                            
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                             <Image VerticalAlignment="Center" Width="100"
-                            HorizontalAlignment="Center" Height="100"
+                            HorizontalAlignment="Center" Height="100"                              
                             Margin="10 10 0 0" Source="/Images/Logo.png"/>
                             <Label VerticalAlignment="Top" FontFamily="Aclonica"
                             HorizontalAlignment="Left" Foreground="#007602"

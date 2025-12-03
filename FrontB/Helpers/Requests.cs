@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Windows;
-using static MaterialDesignThemes.Wpf.Theme.ToolBar;
+using System.Windows.Controls;
 
 namespace FrontB.Helpers
 {
@@ -77,11 +77,157 @@ namespace FrontB.Helpers
         }
 
         #endregion
+        #region
+        async public static Task Get_Stats(int year)
+        {
+
+            if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
+            {
+                MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
+                MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
+                    try
+                    {
+                        using (HttpResponseMessage response = await client.GetAsync(Urls.Url_Stats+year))
+                        {
+                            if (response.StatusCode == HttpStatusCode.OK)
+                            {
+                                using (HttpContent content = response.Content)
+                                {
+                                    string result = await content.ReadAsStringAsync();
+                                    var Root = JsonConvert.DeserializeObject<StatsResponse>(result);
+
+                                    App.Current.Dispatcher.Invoke((Action)delegate
+                                    {
+                                        Blankets.Static_ProgressBar.Progress = Root.stat1;
+                                        Blankets.Static_ProgressBar.Maximum = Root.stat1 * 2;
+                                        Blankets.Static_ProgressBar1.Progress=Root.stat2;
+                                        Blankets.Static_ProgressBar2.Progress = Root.stat3;
+
+                                    });
+                                }
+                            }
+                            else if (response.StatusCode == HttpStatusCode.Forbidden)
+                            {
+                                HttpContent content = response.Content;
+                                MessageBox.Show("Rugsat ýok (Get_Blankets): " + await content.ReadAsStringAsync());
+                            }
+                            else
+                            {
+                                HttpContent content = response.Content;
+                                MessageBox.Show("Ýalňyşlyk: " + await content.ReadAsStringAsync());
+                            }
+                        }
+                    }
+                    catch (WebException ex)
+                    {
+                        WebExceptionStatus status = ex.Status;
+                        if (status == WebExceptionStatus.ProtocolError)
+                        {
+                            HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
+                            MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка WebException: " + ex.Message);
+                        }
+                    }
+                    catch (HttpRequestException request_ex)
+                    {
+                        MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
+                    }
+                }
+
+                MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
+            }
+
+
+        }
+        async public static Task Get_Years()
+        {
+
+            if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
+            {
+                MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
+                MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
+                    try
+                    {
+                        using (HttpResponseMessage response = await client.GetAsync(Urls.URL_StatYears))
+                        {
+                            if (response.StatusCode == HttpStatusCode.OK)
+                            {
+                                using (HttpContent content = response.Content)
+                                {
+                                    string result = await content.ReadAsStringAsync();
+                                    var Root = JsonConvert.DeserializeObject<YearResponse>(result);
+                                        
+                                    Blankets.Static_YearsComboBox.Items.Clear();
+                                    App.Current.Dispatcher.Invoke((Action)delegate
+                                    {
+                                        foreach (var item in Root.data)
+                                        {
+                                            Blankets.Static_YearsComboBox.Items.Add(new ComboBoxItem() { Content = item });
+                                        }
+                                        
+                                    });
+                                }
+                            }
+                            else if (response.StatusCode == HttpStatusCode.Forbidden)
+                            {
+                                HttpContent content = response.Content;
+                                MessageBox.Show("Rugsat ýok (Get_Blankets): " + await content.ReadAsStringAsync());
+                            }
+                            else
+                            {
+                                HttpContent content = response.Content;
+                                MessageBox.Show("Ýalňyşlyk: " + await content.ReadAsStringAsync());
+                            }
+                        }
+                    }
+                    catch (WebException ex)
+                    {
+                        WebExceptionStatus status = ex.Status;
+                        if (status == WebExceptionStatus.ProtocolError)
+                        {
+                            HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
+                            MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка WebException: " + ex.Message);
+                        }
+                    }
+                    catch (HttpRequestException request_ex)
+                    {
+                        MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
+                    }
+                }
+
+                MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
+            }
+
+
+        }
+        #endregion
 
         #region Blankets
         async public static Task Get_Blankets(string url)
-        {
-            
+        {            
             if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
             {
                 MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
@@ -102,8 +248,7 @@ namespace FrontB.Helpers
 
                                     App.Current.Dispatcher.Invoke((Action)delegate
                                     {
-                                        Blankets.blank.Clear();
-
+                                        Blankets.Blank.Clear();                                       
                                         Blankets.Static_DgBlankets.ItemsSource = null;
                                         if (Root.total != 0)
                                         {
@@ -117,8 +262,7 @@ namespace FrontB.Helpers
 
                                             foreach (var item in Root.list)
                                             {
-                                                Blankets.blank.Add(new BlanketsClass(counter, item.guid, item.ykrarhat, item.ysene, item.san, item.atsan, item.bellik));
-                                                
+                                                Blankets.Blank.Add(new BlanketsClass(counter, item.guid, item.ykrarhat, item.ysene, item.san, item.atsan, item.bellik ,item.horses));                                                                                              
 
                                                 if (!filterItems.Contains(counter))
                                                     filterItems.Add(counter);
@@ -136,10 +280,11 @@ namespace FrontB.Helpers
                                                 string atsanStr = item.atsan.ToString();
                                                 if (!filterItems5.Contains(atsanStr))
                                                     filterItems5.Add(atsanStr);
+
                                                 counter++;
                                             }
 
-                                            Blankets.Static_DgBlankets.ItemsSource = Blankets.blank;
+                                            Blankets.Static_DgBlankets.ItemsSource = Blankets.Blank;
 
                                             Blankets.Static_DgBlankets.DataContext = new
                                             {
@@ -195,81 +340,82 @@ namespace FrontB.Helpers
             
         }
 
-        /*   async public static void Add_Rank(string name, string full_name)
+        async public static Task Add_Blankets(string ykrarhat, string ysene, int san)
+        {
+            using (var form = new MultipartFormDataContent())
+            {
+                form.Add(new StringContent(ykrarhat), "ykrarhat");
+                form.Add(new StringContent(ysene), "ysene");
+                form.Add(new StringContent(san.ToString()), "san");
+
+                if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
+                {
+                    using (HttpClient client = new HttpClient())
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
+                        try
+                        {
+                            var a = form.ToList<HttpContent>();
+                            for (int i = 0; i < a.Count(); i++)
+                            {
+                                Debug.WriteLine("Form: " + "\nid: " + a[i].ReadAsStringAsync().Id.ToString() + " Result: " + a[i].ReadAsStringAsync().Result.ToString());
+                            }
+
+                            MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Pen;
+                            MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+
+                            using (HttpResponseMessage response = await client.PostAsync(Urls.URL_Blankets, form))
+                            {
+                               
+                                if (response.IsSuccessStatusCode)
+                                {                                   
+                                   await Get_Blankets(Urls.URL_Blankets);
+                                   MessageBox.Show("Täze ykrarhat goşuldy!", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);                              
+                                    
+                                }
+                                else
+                                {
+                                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                                    MessageBox.Show("Ýalňyşlyk: \n" + await response.Content.ReadAsStringAsync());
+                                }                             
+                                
+                            }
+                        }
+                        catch (WebException ex)
+                        {
+                            MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                            WebExceptionStatus status = ex.Status;
+                            if (status == WebExceptionStatus.ProtocolError)
+                            {
+                                HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
+                                MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Ошибка WebException: " + ex.Message);
+                            }
+                        }
+                        catch (HttpRequestException request_ex)
+                        {
+                            MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                            MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
+                }
+            }
+        }
+
+          async public static Task Update_Blankets(string blanketid,string ykrarhat, string ysene, int san)
           {
               using (var form = new MultipartFormDataContent())
               {
-                  form.Add(new StringContent(name), "name");
-                  form.Add(new StringContent(full_name), "full_name");
-
-                  if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
-                  {
-                      using (HttpClient client = new HttpClient())
-                      {
-                          client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
-                          try
-                          {
-                              var a = form.ToList<HttpContent>();
-                              for (int i = 0; i < a.Count(); i++)
-                              {
-                                  Debug.WriteLine("Form: " + "\nid: " + a[i].ReadAsStringAsync().Id.ToString() + " Result: " + a[i].ReadAsStringAsync().Result.ToString());
-                              }
-
-                              MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Pen;
-                              MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
-
-                              using (HttpResponseMessage response = await client.PostAsync(Urls.URL_Blankets, form))
-                              {
-                                  using (HttpContent content = response.Content)
-                                  {
-                                      string answer = await content.ReadAsStringAsync();
-                                      if (answer.Contains("\"answer\":\"ok\""))
-                                      {
-                                          Get_Blankets();
-                                          MessageBox.Show("Täze ykrarhat goşuldy!: \n" + answer, "Goşuldy", MessageBoxButton.OK, MessageBoxImage.Information);
-                                      }
-                                      else
-                                      {
-                                          MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                                          MessageBox.Show("Ýalňyşlyk: \n" + answer);
-                                      }
-                                  }
-                              }
-                          }
-                          catch (WebException ex)
-                          {
-                              MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                              WebExceptionStatus status = ex.Status;
-                              if (status == WebExceptionStatus.ProtocolError)
-                              {
-                                  HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
-                                  MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
-                              }
-                              else
-                              {
-                                  MessageBox.Show("Ошибка WebException: " + ex.Message);
-                              }
-                          }
-                          catch (HttpRequestException request_ex)
-                          {
-                              MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                              MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
-                          }
-                      }
-                  }
-                  else
-                  {
-                      MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
-                  }
-              }
-          }
-
-         async public static void Update_Rank(string name, string full_name, string rank_id)
-          {
-              using (var form = new MultipartFormDataContent())
-              {
-                  form.Add(new StringContent(name), "name");
-                  form.Add(new StringContent(full_name), "full_name");
+                form.Add(new StringContent(ykrarhat), "ykrarhat");
+                form.Add(new StringContent(ysene), "ysene");
+                form.Add(new StringContent(san.ToString()), "san");
 
                   if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
                   {
@@ -287,20 +433,19 @@ namespace FrontB.Helpers
                               MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Pen;
                               MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
 
-                              using (HttpResponseMessage response = await client.PutAsync(Urls.URL_Blankets + rank_id + "/", form))
+                              using (HttpResponseMessage response = await client.PutAsync(Urls.URL_Blankets + blanketid + "/", form))
                               {
                                   using (HttpContent content = response.Content)
                                   {
-                                      string answer = await content.ReadAsStringAsync();
-                                      if (answer.Contains("\"answer\":\"ok\""))
+                                      if(response.IsSuccessStatusCode) 
                                       {
-                                          Get_Ranks();
-                                          //MessageBox.Show("Harby adyň maglumatlary üýtgedildi!: " + answer, "Üýtgedildi", MessageBoxButton.OK, MessageBoxImage.Information);
+                                         await Get_Blankets(Urls.URL_Blankets);
+                                         MessageBox.Show("Maglumatlar üstünlikli üýtgedildi!: ", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);
                                       }
                                       else
                                       {
-                                          MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                                          MessageBox.Show("Ýalňyşlyk: \n" + answer);
+                                        MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                                        MessageBox.Show("Ýalňyşlyk: \n" + await response.Content.ReadAsStringAsync());
                                       }
                                   }
                               }
@@ -333,7 +478,7 @@ namespace FrontB.Helpers
               }
           }
 
-          async public static void Delete_Rank(string rank_id)
+          async public static Task Delete_Blanket(string blanekt_id)
           {
               if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
               {
@@ -345,20 +490,19 @@ namespace FrontB.Helpers
                           MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Delete;
                           MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
 
-                          using (HttpResponseMessage response = await client.DeleteAsync(Urls.URL_Blankets + rank_id + "/"))
+                          using (HttpResponseMessage response = await client.DeleteAsync(Urls.URL_Blankets + blanekt_id + "/"))
                           {
                               using (HttpContent content = response.Content)
-                              {
-                                  string answer = await content.ReadAsStringAsync();
-                                  if (answer.Contains("\"answer\":\"ok\""))
+                              {                                  
+                                  if (response.IsSuccessStatusCode)
                                   {
-                                      Get_Blankets();
-                                      MessageBox.Show("Maglumatlar üstünlikli pozuldy!: " + answer, "Üýtgedildi", MessageBoxButton.OK, MessageBoxImage.Information);
+                                      await Get_Blankets(Urls.URL_Blankets);
+                                      MessageBox.Show("Maglumatlar üstünlikli pozuldy!", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);
                                   }
                                   else
                                   {
                                       MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                                      MessageBox.Show("Ýalňyşlyk: \n" + answer);
+                                      MessageBox.Show("Ýalňyşlyk: \n" + await response.Content.ReadAsStringAsync());
                                   }
                               }
                           }
@@ -388,8 +532,7 @@ namespace FrontB.Helpers
               {
                   MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
               }
-          } */
-        
+          }         
         #endregion
     }
 }

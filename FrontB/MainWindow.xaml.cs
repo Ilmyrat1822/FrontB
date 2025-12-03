@@ -25,12 +25,13 @@ namespace FrontB
             Static_Main_Frame = Main;
         }
         private async void Window_Loaded(object sender, RoutedEventArgs e)
-        {
+        {   int currentyear = DateTime.Now.Year;
             await Requests.Login();
             string url = Urls.URL_Blankets;
             await Requests.Get_Blankets(url+"?search=");
-            Main.Content = blankets;
-            
+            await Requests.Get_Stats(currentyear);
+            await Requests.Get_Years();
+            Main.Content = blankets;        
         }
         private void Expander1_Expanded(object sender, RoutedEventArgs e)
         {

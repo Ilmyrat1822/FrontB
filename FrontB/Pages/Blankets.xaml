@@ -81,8 +81,8 @@
                                     FontSize="24"/>
                                 <ComboBox Name="YearComboBox" MinWidth="60"                                   
                                     SelectionChanged="YearComboBox_SelectionChanged"
-                                    Margin="20 0 0 0" FontSize="24" Height="30" 
-                                    FontFamily="Poppins" BorderThickness="0"/>
+                                    SelectedIndex="0" Margin="20 0 0 0" FontSize="24" 
+                                    Height="30" FontFamily="Poppins" BorderThickness="0"/>
                             </StackPanel>
                         </Grid>
                     </Viewbox>
@@ -329,6 +329,7 @@
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
                                     <Expander Width="180" Name="TB"
+                                        Background="#F7F8FA"
                                         Loaded="Expander_Loaded"
                                         MouseRightButtonDown="Expander_MouseRightButtonDown" >
                                         <Expander.Header>T/b</Expander.Header>
@@ -369,6 +370,7 @@
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
                                     <Expander Width="180" Name="Yhat"
+                                        Background="#F7F8FA"
                                         Loaded="Expander_Loaded"
                                         MouseRightButtonDown="Expander_MouseRightButtonDown">
                                         <Expander.Header>Y/hat №</Expander.Header>
@@ -409,6 +411,7 @@
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
                                     <Expander Width="180" Name="Ysene"
+                                        Background="#F7F8FA"
                                         Loaded="Expander_Loaded"
                                         MouseRightButtonDown="Expander_MouseRightButtonDown">
                                         <Expander.Header>Y/hat sene</Expander.Header>
@@ -449,6 +452,7 @@
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
                                     <Expander Width="180" Name="San"
+                                        Background="#F7F8FA"
                                         Loaded="Expander_Loaded"
                                         MouseRightButtonDown="Expander_MouseRightButtonDown">
                                         <Expander.Header>At Sany</Expander.Header>
@@ -488,6 +492,7 @@
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
                                     <Expander Width="180" Name="Atsan"
+                                        Background="#F7F8FA"
                                         Loaded="Expander_Loaded"
                                         MouseRightButtonDown="Expander_MouseRightButtonDown">
                                         <Expander.Header>Girizlen at san</Expander.Header>

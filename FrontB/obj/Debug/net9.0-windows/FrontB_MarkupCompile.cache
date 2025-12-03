@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 D:\Admin\source\repos\FrontB\FrontB\App.xaml
-4-677493479
+61688709324
 22-295107760
-13-1177507135
-2081300231685
-MainWindow.xaml;Pages\Blankets.xaml;resources\DataGridTemplates.xaml;resources\InputTemplates.xaml;
+17-453527432
+213290635535
+MainWindow.xaml;Pages\AddJournalHorse.xaml;Pages\Blankets.xaml;resources\DataGridTemplates.xaml;resources\InputTemplates.xaml;Wins\BlanketHorses.xaml;
 
 False
 
