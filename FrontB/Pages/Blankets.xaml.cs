@@ -374,7 +374,6 @@ namespace FrontB.Pages
                 MessageBox.Show(ex.Message, "Bedew", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         private void Searchtb_TextChanged(object sender, TextChangedEventArgs e)
            => filterHelper.Searchtb_TextChanged(sender, e);
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

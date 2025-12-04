@@ -1,5 +1,6 @@
 ﻿using FrontB.Classes;
 using FrontB.Classes;
+using FrontB.Helpers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -12,44 +13,33 @@ namespace FrontB.Pages
     /// </summary>
     public partial class AddJournalHorse : Page
     {
-        string sql;
-        List<BlanketsClass> yinfo;
-        List<UserClass> colorInfo;
-        private List<string> allItems = new List<string>();
+        public static ComboBox Static_ComboBlanket;
+        public static ComboBox Static_ComboColors;
+        public static ComboBox Static_ComboOwners;        
         public AddJournalHorse()
         {
             InitializeComponent();
-            yinfo = new List<BlanketsClass>();
-            colorInfo = new List<UserClass>();
+            Static_ComboBlanket= tb_ykrar;
+            Static_ComboColors= combo_renki;
+            Static_ComboOwners= tb_doglanYeri;           
             tb_doglanyyl.Maximum = DateTime.Now.Year;
-            SetupComboBox();
-        }
-
-        public async Task Init()
-        {
-            try
-            {  
-                //blankets
-                //owners
-                //colors
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Bedew", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            
-        }
-
+            SetupComboBox();          
+        }       
         private void tb_ykrar_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-               /* if (tb_ykrar.SelectedIndex != -1)
+                string ykrar = (((ComboBoxItem)this.tb_ykrar.SelectedItem).Content).ToString();
+
+                foreach (BlanketsClass b in Blankets.Blank)
                 {
-                    string mysqlDateFormat = yinfo[tb_ykrar.SelectedIndex].Ysene;
-                    tb_ysene.Text = mysqlDateFormat;
-                    tb_ykrar.Tag = yinfo[tb_ykrar.SelectedIndex].TB.ToString();
-                }*/
+                    if (b.Ykrarhat == ykrar)
+                    {                                
+                        tb_ysene.Text = b.Ysene;
+                        tb_ykrar.Tag = b.Guid;                                
+                    }
+                }         
+                
             }
             catch (Exception ex)
             {
@@ -57,16 +47,14 @@ namespace FrontB.Pages
             }
         }
 
-        private async void Hasabaalmakbtn_Click(object sender, RoutedEventArgs e)
+        private void Hasabaalmakbtn_Click(object sender, RoutedEventArgs e)
         {
             if (tb_ykrar.Text != "" && combo_renki.SelectedIndex != -1 && tb_jynsy.SelectedIndex != -1 && Combo_biomaterial.SelectedIndex != -1 && !string.IsNullOrEmpty(tb_doglanYeri.Text))
             {
                 try
                 {
                     // add journal horse
-                    Arassala();
-                    await Init();
-
+                    Arassala();                   
                 }
                 catch (Exception ex)
                 {
@@ -78,8 +66,7 @@ namespace FrontB.Pages
         }
         private void SetupComboBox()
         {
-
-            tb_doglanYeri.IsEditable = true;
+            tb_doglanYeri.IsEditable = true;    
             tb_doglanYeri.IsTextSearchEnabled = false;
 
             tb_doglanYeri.AddHandler(TextBoxBase.TextChangedEvent,
@@ -96,14 +83,19 @@ namespace FrontB.Pages
 
             if (string.IsNullOrEmpty(typedText))
             {
-                comboBox.ItemsSource = allItems;
+                comboBox.ItemsSource = tb_doglanYeri.ItemsSource;
                 comboBox.IsDropDownOpen = false;
                 return;
             }
 
-            var filteredItems = allItems
-                .Where(item => item.ToLower().Contains(typedText.ToLower()))
-                .ToList();
+            if (tb_doglanYeri.ItemsSource == null)
+            {
+                comboBox.IsDropDownOpen = false;
+                return;
+            }
+
+            var filteredItems = tb_doglanYeri.ItemsSource
+                .Cast<string>().Where(item => item.ToLower().Contains(typedText.ToLower())).ToList();
 
             comboBox.ItemsSource = filteredItems;
 
@@ -177,6 +169,5 @@ namespace FrontB.Pages
                 MessageBox.Show(ex.Message, "Bedew", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
     }
 }

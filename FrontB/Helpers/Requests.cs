@@ -223,6 +223,148 @@ namespace FrontB.Helpers
 
 
         }
+        async public static Task Get_Colors()
+        {
+            if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
+            {
+                MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
+                MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
+                    try
+                    {
+                        using (HttpResponseMessage response = await client.GetAsync(Urls.URL_Colors))
+                        {
+                            if (response.StatusCode == HttpStatusCode.OK)
+                            {
+                                using (HttpContent content = response.Content)
+                                {
+                                    string result = await content.ReadAsStringAsync();
+                                    var Root = JsonConvert.DeserializeObject<ColorsResponse>(result);
+
+                                    AddJournalHorse.Static_ComboColors.Items.Clear();
+                                    App.Current.Dispatcher.Invoke((Action)delegate
+                                    {
+                                        foreach (var item in Root.colors)
+                                        {
+                                            AddJournalHorse.Static_ComboColors.Items.Add(new ComboBoxItem() { Content = item.renk});
+                                        }
+                                    });
+                                }
+                            }
+                            else if (response.StatusCode == HttpStatusCode.Forbidden)
+                            {
+                                HttpContent content = response.Content;
+                                MessageBox.Show("Rugsat ýok (Get_Blankets): " + await content.ReadAsStringAsync());
+                            }
+                            else
+                            {
+                                HttpContent content = response.Content;
+                                MessageBox.Show("Ýalňyşlyk: " + await content.ReadAsStringAsync());
+                            }
+                        }
+                    }
+                    catch (WebException ex)
+                    {
+                        WebExceptionStatus status = ex.Status;
+                        if (status == WebExceptionStatus.ProtocolError)
+                        {
+                            HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
+                            MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка WebException: " + ex.Message);
+                        }
+                    }
+                    catch (HttpRequestException request_ex)
+                    {
+                        MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
+                    }
+                }
+
+                MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
+            }
+
+
+        }
+        async public static Task Get_Owners()
+        {
+            if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
+            {
+                MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
+                MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
+                    try
+                    {
+                        using (HttpResponseMessage response = await client.GetAsync(Urls.URL_Owners))
+                        {
+                            if (response.StatusCode == HttpStatusCode.OK)
+                            {
+                                using (HttpContent content = response.Content)
+                                {
+                                    string result = await content.ReadAsStringAsync();
+                                    var Root = JsonConvert.DeserializeObject<OwnersResponse>(result);
+
+                                    AddJournalHorse.Static_ComboOwners.Items.Clear();
+                                    App.Current.Dispatcher.Invoke((Action)delegate
+                                    {
+                                        foreach (var item in Root.owners)
+                                        {
+                                            AddJournalHorse.Static_ComboOwners.Items.Add(new ComboBoxItem() { Content = item.owner});
+                                        }
+                                    });
+                                }
+                            }
+                            else if (response.StatusCode == HttpStatusCode.Forbidden)
+                            {
+                                HttpContent content = response.Content;
+                                MessageBox.Show("Rugsat ýok (Get_Blankets): " + await content.ReadAsStringAsync());
+                            }
+                            else
+                            {
+                                HttpContent content = response.Content;
+                                MessageBox.Show("Ýalňyşlyk: " + await content.ReadAsStringAsync());
+                            }
+                        }
+                    }
+                    catch (WebException ex)
+                    {
+                        WebExceptionStatus status = ex.Status;
+                        if (status == WebExceptionStatus.ProtocolError)
+                        {
+                            HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
+                            MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка WebException: " + ex.Message);
+                        }
+                    }
+                    catch (HttpRequestException request_ex)
+                    {
+                        MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
+                    }
+                }
+
+                MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
+            }
+
+
+        }
         #endregion
 
         #region Blankets

@@ -91,4 +91,25 @@ namespace FrontB.Helpers
         public string bellik { get { return _bellik; } set { if (value == null) _bellik = " "; else _bellik = value; } }
 
     }
+
+    public class ColorsResponse
+    {
+        public List<Colors> colors { get; set; }
+
+    }
+    public class Colors
+    {
+        string _renk = "";
+        public int? id { get; set; }
+        public string renk { get { return _renk; } set { if (value == null) _renk = " "; else _renk = value; } }
+    }
+    public class OwnersResponse
+    {
+        public List<Owners> owners { get; set; }
+    }
+    public class Owners
+    {        
+        string _owner = "";
+        public string owner { get { return _owner; } set { if (value == null) _owner = " "; else _owner = value; } }
+    }
 }

@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
+using Colors = System.Windows.Media.Colors;
 
 namespace FrontB
 {
@@ -16,6 +17,7 @@ namespace FrontB
         public static Border Static_LoadingBorder;
         public static SfBusyIndicator Static_Loader;        
         readonly Blankets blankets = new Blankets();
+        readonly AddJournalHorse journalHorse = new AddJournalHorse();   
         public static Frame Static_Main_Frame;
         public MainWindow()
         {
@@ -55,11 +57,23 @@ namespace FrontB
             await Requests.Get_Blankets(Urls.URL_Blankets);
             Main.Content = blankets;
         }
-        private void Hasabaalmakbtn_Click(object sender, RoutedEventArgs e)
+        private async void Hasabaalmakbtn_Click(object sender, RoutedEventArgs e)
         {
             ColorsBlack();
             Hasabalmak.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#007602"));
             Hasabaalmakbtn.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ECFFED"));
+            await Requests.Get_Blankets(Urls.URL_Blankets);
+            await Requests.Get_Colors();
+            await Requests.Get_Owners();
+            AddJournalHorse.Static_ComboBlanket.Items.Clear();
+            foreach (BlanketsClass b in Blankets.Blank)
+            { 
+                if (b.Atsan < b.San)
+                {
+                    AddJournalHorse.Static_ComboBlanket.Items.Add(b.Ykrarhat);                   
+                }
+            }
+            Main.Content = journalHorse;
         }
         private void Ahliatlarbtn_Click(object sender, RoutedEventArgs e)
         {
