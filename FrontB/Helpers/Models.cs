@@ -8,7 +8,7 @@ namespace FrontB.Helpers
 {
     public class LoginResponse
     {
-        public Model_Login data { get; set; }
+        public Model_Login? data { get; set; }
     }
     public class Model_Login
     {
@@ -16,7 +16,7 @@ namespace FrontB.Helpers
         string _refresh_token = "";
         public string token { get { return _token; } set { if (value == null) _token = " "; else _token = value; } }
         public string refresh_token { get { return _refresh_token; } set { if (value == null) _refresh_token = " "; else _refresh_token = value; } }
-        public Admin admin { get; set; }
+        public Admin? admin { get; set; }
     }
     public class Admin
     {
@@ -41,15 +41,14 @@ namespace FrontB.Helpers
     }
     public class YearResponse
     {
-        public List<int> data { get; set; }
+        public List<int>? data { get; set; }
     }
     public class BlanketsResponse
     {
         public int total { get; set; }
-        public List<Model_Blankets> list { get; set; }
-    }
-
-    public class Model_Blankets
+        public List<Blanket>? list { get; set; }
+    }    
+    public class Blanket
     {
         string _guid = "";
         string _ykrarhat = "";
@@ -61,9 +60,9 @@ namespace FrontB.Helpers
         public int? san { get; set; }
         public int? atsan { get; set; }
         public string? bellik { get { return _bellik; } set { if (value == null) _bellik = " "; else _bellik = value; } }
-        public List<JHorse> horses { get; set; }
+        public List<JHorses>? horses { get; set; }
     }
-    public class JHorse
+    public class JHorses
     {
         string _guid = "";
         string _lakamy = "";
@@ -89,13 +88,11 @@ namespace FrontB.Helpers
         public string eyesi { get { return _eyesi; } set { if (value == null) _eyesi = " "; else _eyesi = value; } }
         public string nyshanlar { get { return _nyshanlar; } set { if (value == null) _nyshanlar = " "; else _nyshanlar = value; } }
         public string bellik { get { return _bellik; } set { if (value == null) _bellik = " "; else _bellik = value; } }
-
     }
 
     public class ColorsResponse
     {
-        public List<Colors> colors { get; set; }
-
+        public List<Colors>? colors { get; set; }
     }
     public class Colors
     {
@@ -105,11 +102,44 @@ namespace FrontB.Helpers
     }
     public class OwnersResponse
     {
-        public List<Owners> owners { get; set; }
+        public List<Owners>? owners { get; set; }
     }
     public class Owners
     {        
         string _owner = "";
         public string owner { get { return _owner; } set { if (value == null) _owner = " "; else _owner = value; } }
+    }
+    public class JHorsesResponse
+    {
+        public int total { get; set; }
+        public List<JHorses2>? list { get; set; }
+    }
+    public class JHorses2
+    {
+        string _guid = "";
+        string _lakamy = "";
+        string _atasy = "";
+        string _enesi = "";
+        string _jynsy = "";
+        string _renki = "";
+        string _biomaterial = "";
+        string _probnomer = "";
+        string _eyesi = "";
+        string _nyshanlar = "";
+        string _bellik = "";
+        public string guid { get { return _guid; } set { if (value == null) _guid = " "; else _guid = value; } }
+        public string lakamy { get { return _lakamy; } set { if (value == null) _lakamy = " "; else _lakamy = value; } }
+        public int? doglanyyl { get; set; }
+        public string atasy { get { return _atasy; } set { if (value == null) _atasy = " "; else _atasy = value; } }
+        public string enesi { get { return _enesi; } set { if (value == null) _enesi = " "; else _enesi = value; } }
+        public string jynsy { get { return _jynsy; } set { if (value == null) _jynsy = " "; else _jynsy = value; } }
+        public string renki { get { return _renki; } set { if (value == null) _renki = " "; else _renki = value; } }
+        public string biomaterial { get { return _biomaterial; } set { if (value == null) _biomaterial = " "; else _biomaterial = value; } }
+        public int? biosan { get; set; }
+        public string probnomer { get { return _probnomer; } set { if (value == null) _probnomer = " "; else _probnomer = value; } }
+        public string eyesi { get { return _eyesi; } set { if (value == null) _eyesi = " "; else _eyesi = value; } }
+        public string nyshanlar { get { return _nyshanlar; } set { if (value == null) _nyshanlar = " "; else _nyshanlar = value; } }
+        public string bellik { get { return _bellik; } set { if (value == null) _bellik = " "; else _bellik = value; } }
+        public Blanket? blanket { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using FrontB.Classes;
-using FrontB.Classes;
 using FrontB.Helpers;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,14 +11,12 @@ namespace FrontB.Pages
     /// Логика взаимодействия для Hasabalmak.xaml
     /// </summary>
     public partial class AddJournalHorse : Page
-    {
-        public static ComboBox Static_ComboBlanket;
+    {        
         public static ComboBox Static_ComboColors;
         public static ComboBox Static_ComboOwners;        
         public AddJournalHorse()
         {
-            InitializeComponent();
-            Static_ComboBlanket= tb_ykrar;
+            InitializeComponent();            
             Static_ComboColors= combo_renki;
             Static_ComboOwners= tb_doglanYeri;           
             tb_doglanyyl.Maximum = DateTime.Now.Year;
@@ -29,17 +26,22 @@ namespace FrontB.Pages
         {
             try
             {
-                string ykrar = (((ComboBoxItem)this.tb_ykrar.SelectedItem).Content).ToString();
+                string? ykrar = this.tb_ykrar.SelectedItem as string;
+
+                if (string.IsNullOrEmpty(ykrar))
+                {
+                    return;
+                }
 
                 foreach (BlanketsClass b in Blankets.Blank)
                 {
                     if (b.Ykrarhat == ykrar)
-                    {                                
+                    {
                         tb_ysene.Text = b.Ysene;
-                        tb_ykrar.Tag = b.Guid;                                
+                        tb_ykrar.Tag = b.Guid;                        
                     }
-                }         
-                
+                }
+
             }
             catch (Exception ex)
             {
@@ -47,19 +49,31 @@ namespace FrontB.Pages
             }
         }
 
-        private void Hasabaalmakbtn_Click(object sender, RoutedEventArgs e)
+        private async void Hasabaalmakbtn_Click(object sender, RoutedEventArgs e)
         {
             if (tb_ykrar.Text != "" && combo_renki.SelectedIndex != -1 && tb_jynsy.SelectedIndex != -1 && Combo_biomaterial.SelectedIndex != -1 && !string.IsNullOrEmpty(tb_doglanYeri.Text))
             {
                 try
-                {
-                    // add journal horse
+                {   string lakamy = tb_lakamy.Text;
+                    string doglanyl = tb_doglanyyl.Value.ToString();
+                    string atasy = tb_atasy.Text;
+                    string enesi = tb_enesi.Text;
+                    string jynsy = tb_jynsy.Text;
+                    string renki = combo_renki.Text;
+                    string biomaterial = Combo_biomaterial.Text;
+                    string biosan = tb_biosan.Text;
+                    string probnomer = tb_probnomer.Text;
+                    string eyesi = tb_doglanYeri.Text;
+                    string nyshanlar = tb_nyshanlar.Text;
+                    string bellik = tb_bellik.Text;
+                    string guid = tb_ykrar.Tag.ToString();                   
+
+                    await Requests.Add_JournalHorses(lakamy,doglanyl,atasy,enesi,jynsy,renki,biomaterial,biosan,probnomer,eyesi,nyshanlar,bellik,guid);
                     Arassala();                   
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Bedew", MessageBoxButton.OK, MessageBoxImage.Error);
-
                 }
             }
             else { MessageBox.Show("Ähli maglumatlary giriziň!!", "Bedew", MessageBoxButton.OK, MessageBoxImage.Warning); }
@@ -144,25 +158,26 @@ namespace FrontB.Pages
         {
             try
             {
-                tb_belgi.Clear();
                 tb_lakamy.Clear();
-                Combo_biomaterial.SelectedIndex = 0;
-                tb_jynsy.SelectedIndex = -1;
-                combo_renki.SelectedIndex = -1;
                 tb_doglanyyl.Value = 0;
-                tb_enesi.Clear();
+                combo_renki.SelectedIndex = -1;
+                tb_jynsy.SelectedIndex = -1;
                 tb_atasy.Clear();
-                tb_doglanYeri.ItemsSource = null;
-                tb_nyshanlar.Clear();
-                tb_bellik.Clear();
-                tb_probnomer.Clear();
-                tb_ysene.SelectedDate = null;
-                tb_ykrar.Items.Clear();
-                tb_biosan.Clear();
-                tb_doglanYeri.Text = "";
+                tb_enesi.Clear();
+
+                tb_belgi.Clear();
+                tb_ykrar.SelectedIndex = -1;
                 tb_ykrar.Tag = null;
+                tb_ysene.SelectedDate = null;
+                tb_probnomer.Value = 0;
+                Combo_biomaterial.SelectedIndex = -1;
+                tb_biosan.Value = 1;
 
-
+                tb_doglanYeri.Text = "";
+                tb_doglanYeri.SelectedIndex = -1;
+                tb_nyshanlar.Clear();
+                tb_bellik.Clear();        
+                
             }
             catch (Exception ex)
             {

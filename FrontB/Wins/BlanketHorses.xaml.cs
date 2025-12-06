@@ -8,7 +8,7 @@ namespace FrontB.Pages
     public partial class BlanketHorses : Window
     {       
         FilterDataContext dataContext;
-        FilterHelper<JournalHorses> filterHelper;        
+        FilterHelper<JournalHorsesClass> filterHelper;        
         private Dictionary<string, ComboBoxAdv> comboBoxes = new Dictionary<string, ComboBoxAdv>();
         private Dictionary<string, TextBox> textBoxes = new Dictionary<string, TextBox>();
         private Dictionary<string, Expander> expanders = new Dictionary<string, Expander>();
@@ -18,14 +18,14 @@ namespace FrontB.Pages
             InitializeComponent();   
             Static_DgBlanketHorses= dataGrid_YkrarhatAtlar;
             dataContext = new FilterDataContext(8);            
-            filterHelper= new FilterHelper<JournalHorses>(dataContext, comboBoxes, textBoxes, expanders);
+            filterHelper= new FilterHelper<JournalHorsesClass>(dataContext, comboBoxes, textBoxes, expanders);
             InitFilterDictionaries();
         }
         private void InitFilterDictionaries()
         {
-            filterHelper = new FilterHelper<JournalHorses>(dataContext, comboBoxes, textBoxes, expanders)
+            filterHelper = new FilterHelper<JournalHorsesClass>(dataContext, comboBoxes, textBoxes, expanders)
             {
-                PropertySelectors = new Dictionary<string, Func<JournalHorses, object>>()
+                PropertySelectors = new Dictionary<string, Func<JournalHorsesClass, object>>()
                 {
                     ["Counter"] = x => x.Counter.ToString()?? "",
                     ["Lakamy"] = x => x.Lakamy?.ToString() ?? "",
@@ -72,7 +72,7 @@ namespace FrontB.Pages
                 NullableColumns = new HashSet<string>() { "Lakamy", "Atasy", "Enesi" },
                 DescendingOrderColumns = new HashSet<string>() { "Doglanyyl", "Renki", "Jynsy" },
                 DataGrid = dataGrid_YkrarhatAtlar,
-                GetOriginalData = () => Blankets.Atinfo
+                GetOriginalData = () => Blankets.Horseinfo
             };
 
             foreach (var key in filterHelper.PropertySelectors.Keys)

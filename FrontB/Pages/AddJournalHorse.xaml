@@ -284,7 +284,7 @@
                                                     VerticalAlignment="Center" Height="67"
                                                     HorizontalAlignment="Center" Padding="6"                                       
                                                     Background="Transparent" FontSize="18"                                       
-                                                    BorderThickness="0" StaysOpenOnEdit="True"                                                     
+                                                    BorderThickness="0" StaysOpenOnEdit="True"                                                   
                                                     IsTextSearchEnabled="False" IsEditable="True"/>
                                             </Border>
                                         </Border>

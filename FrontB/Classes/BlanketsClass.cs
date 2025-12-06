@@ -4,7 +4,7 @@ namespace FrontB.Classes
 {    
     public class BlanketsClass
     {
-        public BlanketsClass(int? _counter, string? _guid, string? _ykrarhat, string? _ysene, int? _san, int? _atsan,string? _belllik,List<JHorse>? _horses)
+        public BlanketsClass(int? _counter, string? _guid, string? _ykrarhat, string? _ysene, int? _san, int? _atsan,string? _belllik,List<JHorses>? _horses)
 
         {
             this.Counter = _counter;
@@ -23,7 +23,7 @@ namespace FrontB.Classes
         public int? San { get; set; }
         public int? Atsan { get; set; }
         public string? Bellik { get; set; }
-        public List<JHorse>? Horses { get; set; }
+        public List<JHorses>? Horses { get; set; }
     }
     
 }

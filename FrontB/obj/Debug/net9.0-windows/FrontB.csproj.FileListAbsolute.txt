@@ -57,3 +57,7 @@ D:\Admin\source\repos\FrontB\FrontB\bin\Debug\net9.0-windows\ru\Xceed.Wpf.Avalon
 D:\Admin\source\repos\FrontB\FrontB\bin\Debug\net9.0-windows\sv\Xceed.Wpf.AvalonDock.resources.dll
 D:\Admin\source\repos\FrontB\FrontB\bin\Debug\net9.0-windows\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
 D:\Admin\source\repos\FrontB\FrontB\obj\Debug\net9.0-windows\Pages\AddJournalHorse.baml
+D:\Admin\source\repos\FrontB\FrontB\obj\Debug\net9.0-windows\Pages\JournalHorses.g.cs
+D:\Admin\source\repos\FrontB\FrontB\obj\Debug\net9.0-windows\Wins\HorseInfo.g.cs
+D:\Admin\source\repos\FrontB\FrontB\obj\Debug\net9.0-windows\Pages\JournalHorses.baml
+D:\Admin\source\repos\FrontB\FrontB\obj\Debug\net9.0-windows\Wins\HorseInfo.baml

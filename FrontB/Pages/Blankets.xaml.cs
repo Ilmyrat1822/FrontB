@@ -11,13 +11,15 @@ namespace FrontB.Pages
     public partial class Blankets : Page
     {
         public static List<BlanketsClass> Blank=new List<BlanketsClass>();
-        public static List<JournalHorses> Atinfo=new List<JournalHorses>();
+        public static List<JournalHorsesClass> Horseinfo=new List<JournalHorsesClass>();
         public static DataGrid? Static_DgBlankets;
         public static SfCircularProgressBar? Static_ProgressBar;
         public static SfCircularProgressBar? Static_ProgressBar1;
         public static SfCircularProgressBar? Static_ProgressBar2;
         public static ComboBox? Static_YearsComboBox;
         int opacitycounter;
+        string? mysqlDateFormat;
+        int currentyear= DateTime.Now.Year;
         private bool isedit = false;
         public static string? blanketid;
         FilterDataContext dataContext;
@@ -100,8 +102,11 @@ namespace FrontB.Pages
                     MessageBox.Show("Ähli boşluklary dolduryň!","Bedew",MessageBoxButton.OK,MessageBoxImage.Warning);
                     return;
                 }
-                string ykrarhat = tb_hat.Text;
-                string mysqlDateFormat = tb_ysene.SelectedDate.Value.ToString("yyyy-MM-dd");
+                if (tb_ysene.SelectedDate != null) 
+                {
+                    mysqlDateFormat = tb_ysene.SelectedDate.Value.ToString("yyyy-MM-dd");
+                }
+                string ykrarhat = tb_hat.Text;                
                 string san = tb_san.Text;           
 
                 await Requests.Add_Blankets(ykrarhat, mysqlDateFormat, Convert.ToInt32(san));
@@ -127,15 +132,15 @@ namespace FrontB.Pages
 
                 Editbtn.IsEnabled = false;
                 Editbtn.Opacity = 0.2;
-                Button button = sender as Button;
+                Button? button = sender as Button;
                 if (button != null)
                 {
-                    BlanketsClass selectedItem = button.DataContext as BlanketsClass;
+                    BlanketsClass? selectedItem = button.DataContext as BlanketsClass;
                     if (selectedItem != null)
                     {
-                        tb_hat.Text = selectedItem.Ykrarhat.ToString();
-                        tb_ysene.SelectedDate = Convert.ToDateTime(selectedItem.Ysene);
-                        tb_san.Text = selectedItem.San.ToString();
+                        tb_hat.Text = selectedItem?.Ykrarhat?.ToString();
+                        tb_ysene.SelectedDate = Convert.ToDateTime(selectedItem?.Ysene);
+                        tb_san.Text = selectedItem?.San.ToString();
 
                     }
                 }
@@ -157,12 +162,15 @@ namespace FrontB.Pages
                     MessageBox.Show("Ähli boşluklary dolduryň!", "Bedew", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
-                string blanketid = Blank[dataGrid_Ykrarhatlar.SelectedIndex].Guid;
-                string ykrarhat = tb_hat.Text;
-                string mysqlDateFormat = tb_ysene.SelectedDate.Value.ToString("yyyy-MM-dd");
-                string san = tb_san.Text;
+                if (tb_ysene.SelectedDate != null)
+                {
+                    mysqlDateFormat = tb_ysene.SelectedDate.Value.ToString("yyyy-MM-dd");
+                }
+                string? blanketid = Blank[dataGrid_Ykrarhatlar.SelectedIndex].Guid;
+                string? ykrarhat = tb_hat.Text;               
+                string? san = tb_san.Text;
 
-                await Requests.Update_Blankets(blanketid,ykrarhat, mysqlDateFormat, Convert.ToInt32(san));
+                await Requests.Update_Blankets(blanketid,ykrarhat, mysqlDateFormat, san);
                 Arassala();
             }
             catch (Exception ex)
@@ -248,8 +256,12 @@ namespace FrontB.Pages
         {
             try
             {
-                int year = Convert.ToInt32((((ComboBoxItem)this.YearComboBox.SelectedItem).Content).ToString());
-                await Requests.Get_Stats(year);
+                if (YearComboBox.SelectedIndex != -1)
+                {
+                    currentyear = Convert.ToInt32((((ComboBoxItem)this.YearComboBox.SelectedItem).Content).ToString());
+
+                    await Requests.Get_Stats(currentyear);
+                }
             }
             catch (Exception ex)
             {
@@ -291,7 +303,7 @@ namespace FrontB.Pages
                             MessageBox.Show("Bu ykrar hat degişli at ýok!", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);
                             return;
                         }
-                        Atinfo.Clear();
+                        Horseinfo.Clear();
                         var filterItems = new List<int>();
                         var filterItems2 = new List<string>();
                         var filterItems3 = new List<int?>();
@@ -302,8 +314,8 @@ namespace FrontB.Pages
                         var filterItems8 = new List<string>();
                         foreach (var horse in selectedItem.Horses)
                         {   counter++;
-                            Atinfo.Add(new JournalHorses(counter, horse.guid, horse.lakamy, horse.doglanyyl, horse.atasy, horse.enesi,
-                                horse.jynsy, horse.renki, horse.biomaterial, horse.biosan, horse.probnomer, horse.eyesi, horse.nyshanlar, horse.bellik));
+                            Horseinfo.Add(new JournalHorsesClass(counter, horse.guid, horse.lakamy, horse.doglanyyl, horse.atasy, horse.enesi,horse.jynsy, horse.renki,
+                                horse.biomaterial, horse.biosan, horse.probnomer, horse.eyesi, horse.nyshanlar, horse.bellik,selectedItem.Ykrarhat,selectedItem.Ysene));
                         
                             if (!filterItems.Contains(counter))
                                 filterItems.Add(counter);
@@ -335,18 +347,21 @@ namespace FrontB.Pages
                             Owner = parentWindow,
                             ShowInTaskbar = false,
                         };
-                        BlanketHorses.Static_DgBlanketHorses.ItemsSource = null;
-                        BlanketHorses.Static_DgBlanketHorses.ItemsSource = Atinfo;
-                        BlanketHorses.Static_DgBlanketHorses.DataContext = new
+                        if (BlanketHorses.Static_DgBlanketHorses != null)
                         {
-                            FilterItems = filterItems,
-                            FilterItems2 = filterItems2,
-                            FilterItems3 = filterItems3,
-                            FilterItems4 = filterItems4,
-                            FilterItems5 = filterItems5,
-                            FilterItems6 = filterItems6,                           
-                        };
-                        messageWindow.ShowDialog();
+                            BlanketHorses.Static_DgBlanketHorses.ItemsSource = null;
+                            BlanketHorses.Static_DgBlanketHorses.ItemsSource = Horseinfo;
+                            BlanketHorses.Static_DgBlanketHorses.DataContext = new
+                            {
+                                FilterItems = filterItems,
+                                FilterItems2 = filterItems2,
+                                FilterItems3 = filterItems3,
+                                FilterItems4 = filterItems4,
+                                FilterItems5 = filterItems5,
+                                FilterItems6 = filterItems6,
+                            };
+                            messageWindow.ShowDialog();
+                        }
                     }
                 }
             }

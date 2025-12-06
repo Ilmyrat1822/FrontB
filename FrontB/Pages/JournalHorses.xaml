@@ -1,0 +1,506 @@
+﻿<Page x:Class="FrontB.Pages.JournalHorses"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"      
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+      xmlns:local="clr-namespace:FrontB.Pages">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/DataGridTemplates.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid Background="#e8e8e8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock Foreground="Black" FontFamily="Poppins" FontSize="16" 
+                FontWeight="Medium" Text="Barlaghana /" 
+                Opacity="0.55" Margin="20,10,0,0" 
+                Width="100" Height="20" 
+                VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            <TextBlock Foreground="#007702" FontFamily="Poppins" FontSize="16"
+                FontWeight="UltraBold" Text="Ähli atlar"
+                Margin="120 10 0 0" Height="20" Width="100"
+                VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Border Margin="20 0 20 10" CornerRadius="12" Background="White">
+                <DataGrid x:Name="dataGrid_Ahliatlar"
+                    RowStyle="{DynamicResource DataGridRowStyle1}"                              
+                    ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"                     
+                    VerticalScrollBarVisibility="Visible"
+                    HorizontalScrollBarVisibility="Visible"
+                    IsReadOnly="True" AlternationCount="2"
+                    CellStyle="{DynamicResource DataGridCellStyle1}" 
+                    Style="{DynamicResource DataGridStyle1}">
+                    <DataGrid.Columns>
+                        <!-- T/b Column with Filter -->
+                        <DataGridTemplateColumn Width="160" MinWidth="120" MaxWidth="400" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="150" Name="TB"
+                                            Background="#F7F8FA"
+                                            Loaded="Expander_Loaded" 
+                                            MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.Header>T/b</Expander.Header>
+                                        <StackPanel Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}"
+                                                            Name="Searchtb" TextChanged="Searchtb_TextChanged"                                                            
+                                                            Loaded="SearchTextBox_Loaded"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv Style="{StaticResource FilterComboBox}"
+                                                            Name="Tbcombo" Loaded="ComboBox_Loaded"                                                            
+                                                            SelectionChanged="ComboBox_SelectionChanged"
+                                                            ItemsSource="{Binding DataContext.FilterItems, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}" 
+                                                    Name="OKbtn" Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource DataGridTextColumnStyle}" 
+                                            Text="{Binding Counter}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="160" MinWidth="120" MaxWidth="400" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="150" Name="Lakamy"
+                                            Background="#F7F8FA"
+                                            Loaded="Expander_Loaded"
+                                            MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.Header>Lakamy</Expander.Header>
+                                        <StackPanel  Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}"
+                                                            Name="Searchtb2" TextChanged="Searchtb_TextChanged"                                                            
+                                                            Loaded="SearchTextBox_Loaded"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv Style="{StaticResource FilterComboBox}"
+                                                            Name="Tbcombo2" Loaded="ComboBox_Loaded"                                                             
+                                                            SelectionChanged="ComboBox_SelectionChanged"
+                                                            ItemsSource= "{Binding DataContext.FilterItems2, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}" 
+                                                    Name="OKbtn" Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock 
+                                            Style="{StaticResource DataGridTextColumnStyle}"
+                                            Text="{Binding Lakamy}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="190" MinWidth="120" MaxWidth="300" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="170" Name="Doglanyyl"
+                                            Background="#F7F8FA"
+                                            Loaded="Expander_Loaded"
+                                            MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.Header>Doglan ýyly</Expander.Header>
+                                        <StackPanel  Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}"              
+                                                            Name="Searchtb3" TextChanged="Searchtb_TextChanged"                                                            
+                                                            Loaded="SearchTextBox_Loaded"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv Style="{StaticResource FilterComboBox}"                  
+                                                            Name="Tbcombo3" Loaded="ComboBox_Loaded"                                               
+                                                            SelectionChanged="ComboBox_SelectionChanged"
+                                                            ItemsSource= "{Binding DataContext.FilterItems3, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}"           
+                                                    Name="OKbtn" Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                            Style="{StaticResource DataGridTextColumnStyle}"
+                                            Text="{Binding Doglanyyl}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="180" MinWidth="120" MaxWidth="400" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="150" Name="Atasy"
+                                            Background="#F7F8FA"
+                                            Loaded="Expander_Loaded"
+                                            MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.Header>Atasy</Expander.Header>
+                                        <StackPanel  Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}"                    
+                                                            Name="Searchtb4" TextChanged="Searchtb_TextChanged"                                                            
+                                                            Loaded="SearchTextBox_Loaded"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv Style="{StaticResource FilterComboBox}"
+                                                            Name="Tbcombo4" Loaded="ComboBox_Loaded"                                                            
+                                                            SelectionChanged="ComboBox_SelectionChanged"
+                                                            ItemsSource= "{Binding DataContext.FilterItems4, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}"                                               
+                                                    Name="OKbtn" Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock 
+                                            Style="{StaticResource DataGridTextColumnStyle}"
+                                            Text="{Binding Atasy}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="180" MinWidth="120" MaxWidth="400" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="150" Name="Enesi"
+                                            Background="#F7F8FA"
+                                            Loaded="Expander_Loaded"
+                                            MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.Header>Enesi</Expander.Header>
+                                        <StackPanel  Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}"
+                                                            Name="Searchtb5" Loaded="SearchTextBox_Loaded"                                                            
+                                                            TextChanged="Searchtb_TextChanged"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv Style="{StaticResource FilterComboBox}"                   
+                                                            Name="Tbcombo5" Loaded="ComboBox_Loaded"                                                            
+                                                            SelectionChanged="ComboBox_SelectionChanged"
+                                                            ItemsSource= "{Binding DataContext.FilterItems5, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}"
+                                                    Name="OKbtn" Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Style="{StaticResource DataGridTextColumnStyle}"
+                                        Text="{Binding Enesi}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="180" MinWidth="120" MaxWidth="300" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="150" Name="Renki"
+                                            Background="#F7F8FA"
+                                            Loaded="Expander_Loaded"
+                                            MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.Header>Reňki</Expander.Header>
+                                        <StackPanel  Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}"                                                       
+                                                            Name="Searchtb6" Loaded="SearchTextBox_Loaded"                                                                                                                  
+                                                            TextChanged="Searchtb_TextChanged"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv Style="{StaticResource FilterComboBox}"                                                        
+                                                            Name="Tbcombo6" Loaded="ComboBox_Loaded"                                                            
+                                                            SelectionChanged="ComboBox_SelectionChanged"
+                                                            ItemsSource= "{Binding DataContext.FilterItems6, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}"
+                                                    Name="OKbtn" Click="OKbtn_Click">
+                                            </Button>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Style="{StaticResource DataGridTextColumnStyle}"
+                                        Text="{Binding Renki}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="180" MinWidth="120" MaxWidth="300" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="150" Name="Jynsy"
+                                            Background="#F7F8FA"
+                                            Loaded="Expander_Loaded"
+                                            MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.Header>Jynsy</Expander.Header>
+                                        <StackPanel  Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}"
+                                                            Name="Searchtb7" Loaded="SearchTextBox_Loaded"                                                                                                                         
+                                                            TextChanged="Searchtb_TextChanged"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv Style="{StaticResource FilterComboBox}"                                           
+                                                            Name="Tbcombo7" Loaded="ComboBox_Loaded"                                                            
+                                                            SelectionChanged="ComboBox_SelectionChanged"
+                                                            ItemsSource= "{Binding DataContext.FilterItems6, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}"
+                                                    Name="OKbtn" Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock 
+                                            Style="{StaticResource DataGridTextColumnStyle}"
+                                            Text="{Binding Jynsy}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Width="500" MinWidth="200" MaxWidth="800" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="490" Name="Eyesi"
+                                        Background="#F7F8FA"
+                                        Loaded="Expander_Loaded"
+                                        MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.HeaderTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextAlignment="Center"
+                                                    HorizontalAlignment="Center" VerticalAlignment="Center"                                                    
+                                                    Width="{Binding RelativeSource={RelativeSource AncestorType=Expander}, Path=ActualWidth}"/>
+                                            </DataTemplate>
+                                        </Expander.HeaderTemplate>
+                                        <Expander.Header>Eýesi we hojalygy</Expander.Header>
+                                        <StackPanel  Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuterWide}">
+                                                <Border Style="{StaticResource FilterBorderInnerWide}">
+                                                    <TextBox Style="{StaticResource FilterTextBoxWide}"                               
+                                                        Name="Searchtb8" TextChanged="Searchtb_TextChanged"                                                        
+                                                        Loaded="SearchTextBox_Loaded"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuterWide}">
+                                                <Border Style="{StaticResource FilterBorderInnerWide}">
+                                                    <syncfusion:ComboBoxAdv 
+                                                        Style="{StaticResource FilterComboBoxWide}"                  
+                                                        Name="Tbcombo8" Loaded="ComboBox_Loaded"                                                        
+                                                        SelectionChanged="ComboBox_SelectionChanged"
+                                                        ItemsSource= "{Binding FilterItemsSource}"/>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}"
+                                                Name="OKbtn" Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock 
+                                        Style="{StaticResource DataGridTextColumnStyle}"                                        
+                                        Text="{Binding Eyesi}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Width="180" MinWidth="120" MaxWidth="300" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="160" Name="Yhat"
+                                              Background="#F7F8FA"
+                                              Loaded="Expander_Loaded"
+                                              MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.Header>Ykrar haty</Expander.Header>
+                                        <StackPanel  Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}"                                                            
+                                                            Name="Searchtb9" Loaded="SearchTextBox_Loaded"                                          
+                                                            TextChanged="Searchtb_TextChanged"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv Style="{StaticResource FilterComboBox}"
+                                                        Name="Tbcombo10" Loaded="ComboBox_Loaded"                                                        
+                                                        SelectionChanged="ComboBox_SelectionChanged"
+                                                        ItemsSource= "{Binding DataContext.FilterItems10, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                                    </syncfusion:ComboBoxAdv>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}"
+                                                Name="OKbtn" Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock 
+                                            Style="{StaticResource DataGridTextColumnStyle}"
+                                            Text="{Binding Yhat}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Width="180" MinWidth="120" MaxWidth="300" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Expander Width="160" Name="Ysene" 
+                                        Background="#F7F8FA"
+                                        Loaded="Expander_Loaded"                                      
+                                        MouseRightButtonDown="Expander_MouseRightButtonDown">
+                                        <Expander.Header>Y/hat sene</Expander.Header>
+                                        <StackPanel  Width="auto">
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <TextBox Style="{StaticResource FilterTextBox}"                                   
+                                                    Name="Searchtb10" Loaded="SearchTextBox_Loaded"                                                    
+                                                    TextChanged="Searchtb_TextChanged"/>
+                                                </Border>
+                                            </Border>
+                                            <Border Style="{StaticResource FilterBorderOuter}">
+                                                <Border Style="{StaticResource FilterBorderInner}">
+                                                    <syncfusion:ComboBoxAdv Style="{StaticResource FilterComboBox}"                                                             
+                                                        Name="Tbcombo11" Loaded="ComboBox_Loaded"                                         
+                                                        SelectionChanged="ComboBox_SelectionChanged"
+                                                        ItemsSource= "{Binding DataContext.FilterItems11, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                                    </syncfusion:ComboBoxAdv>
+                                                </Border>
+                                            </Border>
+                                            <Button Style="{StaticResource FilterOKButton}"                                                    
+                                            Name="OKbtn" Click="OKbtn_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock 
+                                            Style="{StaticResource DataGridTextColumnStyle}"
+                                            Text="{Binding Ysene,StringFormat={}{0:dd/MM/yyyy}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Width="120" MinWidth="100" MaxWidth="200" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Prob nomer" 
+                                        Style="{StaticResource DataGridTextBlockStyle}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock 
+                                             Style="{StaticResource DataGridTextColumnStyle}"                                             
+                                             Text="{Binding Probnomer}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Width="120" MinWidth="100" MaxWidth="200" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Biomaterial"                                                   
+                                            Style="{StaticResource DataGridTextBlockStyle}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Biomaterial}"
+                                            Style="{StaticResource DataGridTextColumnStyle}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Width="170" MinWidth="120" MaxWidth="250" CanUserResize="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Biomaterialyň sany" 
+                                            Style="{StaticResource DataGridTextBlockStyle}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Biosan}"
+                                            Style="{StaticResource DataGridTextColumnStyle}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Width="120" CanUserResize="False">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="FileFindOutline" Name="Viewicon"                                   
+                                                Style="{StaticResource Viewicon}"/>
+                                        <Button Style="{StaticResource ViewButton}"    
+                                                Name="View" Content="Görmek"                                  
+                                                Click="View_Click"  Cursor="Hand">
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

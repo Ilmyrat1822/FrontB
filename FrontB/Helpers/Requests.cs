@@ -3,6 +3,7 @@ using FrontB.Pages;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -33,7 +34,7 @@ namespace FrontB.Helpers
                                 using (HttpContent content = response.Content)
                                 {
                                     string http_response = await content.ReadAsStringAsync();
-                                    LoginResponse login_model = JsonConvert.DeserializeObject<LoginResponse>(http_response);
+                                    LoginResponse? login_model = JsonConvert.DeserializeObject<LoginResponse>(http_response);
 
                                     if (login_model == null || login_model.data == null)
                                     {
@@ -60,8 +61,8 @@ namespace FrontB.Helpers
                         WebExceptionStatus status = ex.Status;
                         if (status == WebExceptionStatus.ProtocolError)
                         {
-                            HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
-                            MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
+                            HttpWebResponse? httpResponse = (HttpWebResponse?)ex.Response;
+                            MessageBox.Show("Статусный код ошибки: " + (int?)httpResponse?.StatusCode + " - " + httpResponse?.StatusCode);
                         }
                         else
                         {
@@ -83,15 +84,18 @@ namespace FrontB.Helpers
 
             if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
             {
-                MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
-                MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                if (MainWindow.Static_Loader != null && MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                }
 
                 using (HttpClient client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
                     try
                     {
-                        using (HttpResponseMessage response = await client.GetAsync(Urls.Url_Stats+year))
+                        using (HttpResponseMessage response = await client.GetAsync(Urls.Url_Stats + year))
                         {
                             if (response.StatusCode == HttpStatusCode.OK)
                             {
@@ -100,14 +104,19 @@ namespace FrontB.Helpers
                                     string result = await content.ReadAsStringAsync();
                                     var Root = JsonConvert.DeserializeObject<StatsResponse>(result);
 
-                                    App.Current.Dispatcher.Invoke((Action)delegate
+                                    if (Root != null)
                                     {
-                                        Blankets.Static_ProgressBar.Progress = Root.stat1;
-                                        Blankets.Static_ProgressBar.Maximum = Root.stat1 * 2;
-                                        Blankets.Static_ProgressBar1.Progress=Root.stat2;
-                                        Blankets.Static_ProgressBar2.Progress = Root.stat3;
-
-                                    });
+                                        App.Current.Dispatcher.Invoke((Action)delegate
+                                        {
+                                            if (Blankets.Static_ProgressBar != null && Blankets.Static_ProgressBar1 != null && Blankets.Static_ProgressBar2 != null)
+                                            {
+                                                Blankets.Static_ProgressBar.Progress = Root.stat1;
+                                                Blankets.Static_ProgressBar.Maximum = Root.stat1 * 2;
+                                                Blankets.Static_ProgressBar1.Progress = Root.stat2;
+                                                Blankets.Static_ProgressBar2.Progress = Root.stat3;
+                                            }
+                                        });
+                                    }
                                 }
                             }
                             else if (response.StatusCode == HttpStatusCode.Forbidden)
@@ -127,8 +136,8 @@ namespace FrontB.Helpers
                         WebExceptionStatus status = ex.Status;
                         if (status == WebExceptionStatus.ProtocolError)
                         {
-                            HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
-                            MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
+                            HttpWebResponse? httpResponse = (HttpWebResponse?)ex.Response;
+                            MessageBox.Show("Статусный код ошибки: " + (int?)httpResponse?.StatusCode + " - " + httpResponse?.StatusCode);
                         }
                         else
                         {
@@ -140,8 +149,10 @@ namespace FrontB.Helpers
                         MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
                     }
                 }
-
-                MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                if (MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                }
             }
             else
             {
@@ -155,9 +166,11 @@ namespace FrontB.Helpers
 
             if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
             {
-                MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
-                MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
-
+                if (MainWindow.Static_Loader != null && MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                }
                 using (HttpClient client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
@@ -171,16 +184,24 @@ namespace FrontB.Helpers
                                 {
                                     string result = await content.ReadAsStringAsync();
                                     var Root = JsonConvert.DeserializeObject<YearResponse>(result);
-                                        
-                                    Blankets.Static_YearsComboBox.Items.Clear();
-                                    App.Current.Dispatcher.Invoke((Action)delegate
+
+                                    if (Root != null)
                                     {
-                                        foreach (var item in Root.data)
+                                        if (Blankets.Static_YearsComboBox != null)
+                                            Blankets.Static_YearsComboBox.Items.Clear();
+                                        App.Current.Dispatcher.Invoke((Action)delegate
                                         {
-                                            Blankets.Static_YearsComboBox.Items.Add(new ComboBoxItem() { Content = item });
-                                        }
-                                        
-                                    });
+                                            if (Root.data != null)
+                                            {
+                                                foreach (var item in Root.data)
+                                                {
+                                                    if (Blankets.Static_YearsComboBox != null)
+                                                        Blankets.Static_YearsComboBox.Items.Add(new ComboBoxItem() { Content = item });
+                                                }
+                                            }
+
+                                        });
+                                    }
                                 }
                             }
                             else if (response.StatusCode == HttpStatusCode.Forbidden)
@@ -200,8 +221,8 @@ namespace FrontB.Helpers
                         WebExceptionStatus status = ex.Status;
                         if (status == WebExceptionStatus.ProtocolError)
                         {
-                            HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
-                            MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
+                            HttpWebResponse? httpResponse = (HttpWebResponse?)ex.Response;
+                            MessageBox.Show("Статусный код ошибки: " + (int?)httpResponse?.StatusCode + " - " + httpResponse?.StatusCode);
                         }
                         else
                         {
@@ -213,8 +234,10 @@ namespace FrontB.Helpers
                         MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
                     }
                 }
-
-                MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                if (MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                }
             }
             else
             {
@@ -227,8 +250,11 @@ namespace FrontB.Helpers
         {
             if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
             {
-                MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
-                MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                if (MainWindow.Static_Loader != null && MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                }
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -244,14 +270,20 @@ namespace FrontB.Helpers
                                     string result = await content.ReadAsStringAsync();
                                     var Root = JsonConvert.DeserializeObject<ColorsResponse>(result);
 
-                                    AddJournalHorse.Static_ComboColors.Items.Clear();
-                                    App.Current.Dispatcher.Invoke((Action)delegate
+                                    if (Root != null)
                                     {
-                                        foreach (var item in Root.colors)
+                                        AddJournalHorse.Static_ComboColors.Items.Clear();
+                                        App.Current.Dispatcher.Invoke((Action)delegate
                                         {
-                                            AddJournalHorse.Static_ComboColors.Items.Add(new ComboBoxItem() { Content = item.renk});
-                                        }
-                                    });
+                                            if (Root.colors != null)
+                                            {
+                                                foreach (var item in Root.colors)
+                                                {
+                                                    AddJournalHorse.Static_ComboColors.Items.Add(new ComboBoxItem() { Content = item.renk });
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
                             }
                             else if (response.StatusCode == HttpStatusCode.Forbidden)
@@ -271,8 +303,8 @@ namespace FrontB.Helpers
                         WebExceptionStatus status = ex.Status;
                         if (status == WebExceptionStatus.ProtocolError)
                         {
-                            HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
-                            MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
+                            HttpWebResponse? httpResponse = (HttpWebResponse?)ex.Response;
+                            MessageBox.Show("Статусный код ошибки: " + (int?)httpResponse?.StatusCode + " - " + httpResponse?.StatusCode);
                         }
                         else
                         {
@@ -284,8 +316,10 @@ namespace FrontB.Helpers
                         MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
                     }
                 }
-
-                MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                if (MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                }
             }
             else
             {
@@ -298,8 +332,11 @@ namespace FrontB.Helpers
         {
             if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
             {
-                MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
-                MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                if (MainWindow.Static_Loader != null && MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                }
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -315,14 +352,20 @@ namespace FrontB.Helpers
                                     string result = await content.ReadAsStringAsync();
                                     var Root = JsonConvert.DeserializeObject<OwnersResponse>(result);
 
-                                    AddJournalHorse.Static_ComboOwners.Items.Clear();
-                                    App.Current.Dispatcher.Invoke((Action)delegate
+                                    if (Root != null)
                                     {
-                                        foreach (var item in Root.owners)
+                                        AddJournalHorse.Static_ComboOwners.Items.Clear();
+                                        App.Current.Dispatcher.Invoke((Action)delegate
                                         {
-                                            AddJournalHorse.Static_ComboOwners.Items.Add(new ComboBoxItem() { Content = item.owner});
-                                        }
-                                    });
+                                            if (Root.owners != null)
+                                            {
+                                                foreach (var item in Root.owners)
+                                                {
+                                                    AddJournalHorse.Static_ComboOwners.Items.Add(new ComboBoxItem() { Content = item.owner });
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
                             }
                             else if (response.StatusCode == HttpStatusCode.Forbidden)
@@ -342,8 +385,8 @@ namespace FrontB.Helpers
                         WebExceptionStatus status = ex.Status;
                         if (status == WebExceptionStatus.ProtocolError)
                         {
-                            HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
-                            MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
+                            HttpWebResponse? httpResponse = (HttpWebResponse?)ex.Response;
+                            MessageBox.Show("Статусный код ошибки: " + (int?)httpResponse?.StatusCode + " - " + httpResponse?.StatusCode);
                         }
                         else
                         {
@@ -355,8 +398,10 @@ namespace FrontB.Helpers
                         MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
                     }
                 }
-
-                MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                if (MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                }
             }
             else
             {
@@ -369,17 +414,21 @@ namespace FrontB.Helpers
 
         #region Blankets
         async public static Task Get_Blankets(string url)
-        {            
+        {
             if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
             {
-                MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
-                MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                if (MainWindow.Static_Loader != null && MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                }
 
                 using (HttpClient client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
                     try
-                    {   using (HttpResponseMessage response = await client.GetAsync(url))
+                    {
+                        using (HttpResponseMessage response = await client.GetAsync(url))
                         {
                             if (response.StatusCode == HttpStatusCode.OK)
                             {
@@ -390,54 +439,61 @@ namespace FrontB.Helpers
 
                                     App.Current.Dispatcher.Invoke((Action)delegate
                                     {
-                                        Blankets.Blank.Clear();                                       
-                                        Blankets.Static_DgBlankets.ItemsSource = null;
-                                        if (Root.total != 0)
+                                        Blankets.Blank.Clear();
+                                        if (Blankets.Static_DgBlankets != null)
                                         {
-                                            int counter = 1;
-
-                                            var filterItems = new List<int>();
-                                            var filterItems2 = new List<string>();
-                                            var filterItems3 = new List<string>();
-                                            var filterItems4 = new List<string>();
-                                            var filterItems5 = new List<string>();
-
-                                            foreach (var item in Root.list)
+                                            Blankets.Static_DgBlankets.ItemsSource = null;
+                                            if (Root?.total != 0)
                                             {
-                                                Blankets.Blank.Add(new BlanketsClass(counter, item.guid, item.ykrarhat, item.ysene, item.san, item.atsan, item.bellik ,item.horses));                                                                                              
+                                                int counter = 1;
 
-                                                if (!filterItems.Contains(counter))
-                                                    filterItems.Add(counter);
+                                                var filterItems = new List<int>();
+                                                var filterItems2 = new List<string?>();
+                                                var filterItems3 = new List<string?>();
+                                                var filterItems4 = new List<string?>();
+                                                var filterItems5 = new List<string?>();
+                                                if (Root?.list != null)
+                                                {
+                                                    foreach (var item in Root.list)
+                                                    {
+                                                        Blankets.Blank.Add(new BlanketsClass(counter, item?.guid, item?.ykrarhat,
+                                                             item?.ysene, item?.san, item?.atsan, item?.bellik, item?.horses));
 
-                                                if (!filterItems2.Contains(item.ykrarhat))
-                                                    filterItems2.Add(item.ykrarhat);
 
-                                                if (!filterItems3.Contains(item.ysene))
-                                                    filterItems3.Add(item.ysene);
+                                                        if (!filterItems.Contains(counter))
+                                                            filterItems.Add(counter);
 
-                                                string sanStr = item.san.ToString();
-                                                if (!filterItems4.Contains(sanStr))
-                                                    filterItems4.Add(sanStr);
+                                                        if (!filterItems2.Contains(item?.ykrarhat))
+                                                            filterItems2.Add(item?.ykrarhat);
 
-                                                string atsanStr = item.atsan.ToString();
-                                                if (!filterItems5.Contains(atsanStr))
-                                                    filterItems5.Add(atsanStr);
+                                                        if (!filterItems3.Contains(item?.ysene))
+                                                            filterItems3.Add(item?.ysene);
 
-                                                counter++;
+                                                        string? sanStr = item?.san.ToString();
+                                                        if (!filterItems4.Contains(sanStr))
+                                                            filterItems4.Add(sanStr);
+
+                                                        string? atsanStr = item?.atsan.ToString();
+                                                        if (!filterItems5.Contains(atsanStr))
+                                                            filterItems5.Add(atsanStr);
+
+                                                        counter++;
+
+                                                    }
+
+                                                    Blankets.Static_DgBlankets.ItemsSource = Blankets.Blank;
+
+                                                    Blankets.Static_DgBlankets.DataContext = new
+                                                    {
+                                                        FilterItems = filterItems,
+                                                        FilterItems2 = filterItems2,
+                                                        FilterItems3 = filterItems3,
+                                                        FilterItems4 = filterItems4,
+                                                        FilterItems5 = filterItems5
+                                                    };
+                                                }
                                             }
-
-                                            Blankets.Static_DgBlankets.ItemsSource = Blankets.Blank;
-
-                                            Blankets.Static_DgBlankets.DataContext = new
-                                            {
-                                                FilterItems = filterItems,   
-                                                FilterItems2 = filterItems2, 
-                                                FilterItems3 = filterItems3, 
-                                                FilterItems4 = filterItems4, 
-                                                FilterItems5 = filterItems5  
-                                            };
                                         }
-                                        
                                     });
                                 }
                             }
@@ -458,8 +514,8 @@ namespace FrontB.Helpers
                         WebExceptionStatus status = ex.Status;
                         if (status == WebExceptionStatus.ProtocolError)
                         {
-                            HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
-                            MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
+                            HttpWebResponse? httpResponse = (HttpWebResponse?)ex.Response;
+                            MessageBox.Show("Статусный код ошибки: " + (int?)httpResponse?.StatusCode + " - " + httpResponse?.StatusCode);
                         }
                         else
                         {
@@ -471,8 +527,10 @@ namespace FrontB.Helpers
                         MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
                     }
                 }
-
-                MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                if (MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                }
             }
             else
             {
@@ -481,8 +539,443 @@ namespace FrontB.Helpers
 
             
         }
+        async public static Task Add_Blankets(string ykrarhat, string? ysene, int san)
+        {
+            if (ysene != null) 
+            using (var form = new MultipartFormDataContent())
+            {
+                form.Add(new StringContent(ykrarhat), "ykrarhat");               
+                form.Add(new StringContent(ysene), "ysene");
+                form.Add(new StringContent(san.ToString()), "san");
 
-        async public static Task Add_Blankets(string ykrarhat, string ysene, int san)
+                if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
+                {
+                    using (HttpClient client = new HttpClient())
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
+                        try
+                        {
+                            var a = form.ToList<HttpContent>();
+                            for (int i = 0; i < a.Count(); i++)
+                            {
+                                Debug.WriteLine("Form: " + "\nid: " + a[i].ReadAsStringAsync().Id.ToString() + " Result: " + a[i].ReadAsStringAsync().Result.ToString());
+                            }
+                            if (MainWindow.Static_Loader != null && MainWindow.Static_LoadingBorder != null)
+                            {
+                                MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Pen;
+                                MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                            }
+
+                            using (HttpResponseMessage response = await client.PostAsync(Urls.URL_Blankets, form))
+                            {
+                               
+                                if (response.IsSuccessStatusCode)
+                                {                                   
+                                   await Get_Blankets(Urls.URL_Blankets);
+                                   MessageBox.Show("Täze ykrarhat goşuldy!", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);                              
+                                    
+                                }
+                                else
+                                {   if (MainWindow.Static_LoadingBorder != null)
+                                        MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                                    MessageBox.Show("Ýalňyşlyk: \n" + await response.Content.ReadAsStringAsync());
+                                }                             
+                                
+                            }
+                        }
+                        catch (WebException ex)
+                        {  
+                            if (MainWindow.Static_LoadingBorder != null)
+                                MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                            WebExceptionStatus status = ex.Status;
+                            if (status == WebExceptionStatus.ProtocolError)
+                            {
+                                HttpWebResponse? httpResponse = (HttpWebResponse?)ex.Response;
+                                MessageBox.Show("Статусный код ошибки: " + (int?)httpResponse?.StatusCode + " - " + httpResponse?.StatusCode);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Ошибка WebException: " + ex.Message);
+                            }
+                        }
+                        catch (HttpRequestException request_ex)
+                        {
+                            if (MainWindow.Static_LoadingBorder != null)
+                                MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                            MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
+                }
+            }
+        }
+        async public static Task Update_Blankets(string? blanketid,string? ykrarhat, string? ysene, string? san)
+          {
+            if (blanketid != null && ykrarhat != null && ysene != null && san != null)
+            
+               
+            using (var form = new MultipartFormDataContent())
+              {
+                form.Add(new StringContent(ykrarhat), "ykrarhat");
+                form.Add(new StringContent(ysene), "ysene");
+                form.Add(new StringContent(san), "san");
+
+                  if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
+                  {
+                      using (HttpClient client = new HttpClient())
+                      {
+                          client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
+                          try
+                          {
+                              var a = form.ToList<HttpContent>();
+                              for (int i = 0; i < a.Count(); i++)
+                              {
+                                  Debug.WriteLine("Form: " + "id: " + a[i].ReadAsStringAsync().Id.ToString() + " Result: " + a[i].ReadAsStringAsync().Result.ToString());
+                              }
+                              
+                              if (MainWindow.Static_Loader != null && MainWindow.Static_LoadingBorder != null)
+                              {
+                                  MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Pen;
+                                  MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                              }                               
+
+                              using (HttpResponseMessage response = await client.PutAsync(Urls.URL_Blankets + blanketid + "/", form))
+                              {
+                                  using (HttpContent content = response.Content)
+                                  {
+                                      if(response.IsSuccessStatusCode) 
+                                      {
+                                         await Get_Blankets(Urls.URL_Blankets);
+                                         MessageBox.Show("Maglumatlar üstünlikli üýtgedildi!: ", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);
+                                      }
+                                      else
+                                      {
+                                        if (MainWindow.Static_LoadingBorder != null)
+                                            MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                                        MessageBox.Show("Ýalňyşlyk: \n" + await response.Content.ReadAsStringAsync());
+                                      }
+                                  }
+                              }
+                          }
+                          catch (WebException ex)
+                          {
+                                if (MainWindow.Static_LoadingBorder != null)
+                                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                              WebExceptionStatus status = ex.Status;
+                              if (status == WebExceptionStatus.ProtocolError)
+                              {
+                                  HttpWebResponse? httpResponse = (HttpWebResponse?)ex.Response;
+                                  MessageBox.Show("Статусный код ошибки: " + (int?)httpResponse?.StatusCode + " - " + httpResponse?.StatusCode);
+                              }
+                              else
+                              {
+                                  MessageBox.Show("Ошибка WebException: " + ex.Message);
+                              }
+                          }
+                          catch (HttpRequestException request_ex)
+                          {
+                                if(MainWindow.Static_LoadingBorder!=null)
+                                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                              MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
+                          }
+                      }
+                  }
+                  else
+                  {
+                      MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
+                  }
+              }
+          }
+        async public static Task Delete_Blanket(string? blanekt_id)
+          {
+              if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
+              {
+                  using (HttpClient client = new HttpClient())
+                  {
+                      client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
+                      try
+                      {
+                        if (MainWindow.Static_Loader != null && MainWindow.Static_LoadingBorder != null)
+                        {
+                            MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Delete;
+                            MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                        }
+
+                          using (HttpResponseMessage response = await client.DeleteAsync(Urls.URL_Blankets + blanekt_id + "/"))
+                          {
+                              using (HttpContent content = response.Content)
+                              {                                  
+                                  if (response.IsSuccessStatusCode)
+                                  {
+                                      await Get_Blankets(Urls.URL_Blankets);
+                                      MessageBox.Show("Maglumatlar üstünlikli pozuldy!", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);
+                                  }
+                                  else
+                                  {     if (MainWindow.Static_LoadingBorder != null)
+                                        MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                                      MessageBox.Show("Ýalňyşlyk: \n" + await response.Content.ReadAsStringAsync());
+                                  }
+                              }
+                          }
+                      }
+                      catch (WebException ex)
+                      { 
+                        if (MainWindow.Static_LoadingBorder != null)
+                            MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                          WebExceptionStatus status = ex.Status;
+                          if (status == WebExceptionStatus.ProtocolError)
+                          {
+                              HttpWebResponse? httpResponse = (HttpWebResponse?)ex.Response;
+                              MessageBox.Show("Статусный код ошибки: " + (int?)httpResponse?.StatusCode + " - " + httpResponse?.StatusCode);
+                          }
+                          else
+                          {
+                              MessageBox.Show("Ошибка WebException: " + ex.Message);
+                          }
+                      }
+                      catch (HttpRequestException request_ex)
+                      {   if (MainWindow.Static_LoadingBorder != null)
+                            MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                          MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
+                      }
+                  }
+              }
+              else
+              {
+                  MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
+              }
+          }
+        #endregion
+
+        #region Ahliatlar
+        async public static Task Get_JournalHorses(string url)
+        {
+            if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
+            {
+                if (MainWindow.Static_Loader != null && MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                }
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
+                    try
+                    {
+                        using (HttpResponseMessage response = await client.GetAsync(url))
+                        {
+                            if (response.StatusCode == HttpStatusCode.OK)
+                            {
+                                using (HttpContent content = response.Content)
+                                {
+                                    string result = await content.ReadAsStringAsync();
+                                    var Root = JsonConvert.DeserializeObject<JHorsesResponse>(result);
+
+                                    App.Current.Dispatcher.Invoke((Action)delegate
+                                    {
+                                        if (JournalHorses.Static_DgJournalHorses != null)
+                                        {
+                                            JournalHorses.Horseinfo.Clear();
+                                            JournalHorses.Static_DgJournalHorses.ItemsSource = null;
+                                            if (Root?.total != 0)
+                                            {
+                                                int counter = 1;
+
+                                                var filterItems = new List<int>();
+                                                var filterItems2 = new List<string>();
+                                                var filterItems3 = new List<string?>();
+                                                var filterItems4 = new List<string>();
+                                                var filterItems5 = new List<string>();
+                                                var filterItems6 = new List<string>();
+                                                var filterItems7 = new List<string>();
+                                                var filterItems8 = new List<string?>();
+                                                var filterItems9 = new List<string?>();
+                                                var filterItems10 = new List<string>();
+                                                var filterItems11 = new List<string>();
+                                                if (Root?.list != null)
+                                                {
+                                                    foreach (var item in Root.list)
+                                                    {
+                                                        JournalHorses.Horseinfo.Add(new JournalHorsesClass(counter, item.guid,
+                                                            item.lakamy, item.doglanyyl, item.atasy, item.enesi,
+                                                            item.jynsy, item.renki, item.biomaterial, item.biosan,
+                                                            item.probnomer, item.eyesi, item.nyshanlar, item.bellik, item.blanket?.ykrarhat, item.blanket?.ysene));
+
+                                                        if (!filterItems.Contains(counter))
+                                                            filterItems.Add(counter);
+                                                        if (!filterItems2.Contains(item.lakamy))
+                                                            filterItems2.Add(item.lakamy);
+                                                        if (!filterItems3.Contains(item.doglanyyl.ToString()))
+                                                            filterItems3.Add(item.doglanyyl.ToString());
+                                                        if (!filterItems4.Contains(item.atasy))
+                                                            filterItems4.Add(item.atasy);
+                                                        if (!filterItems5.Contains(item.enesi))
+                                                            filterItems5.Add(item.enesi);
+                                                        if (!filterItems6.Contains(item.jynsy))
+                                                            filterItems6.Add(item.jynsy);
+                                                        if (!filterItems7.Contains(item.renki))
+                                                            filterItems7.Add(item.renki);
+                                                        if (!filterItems8.Contains(item.blanket?.ykrarhat))
+                                                            filterItems8.Add(item.blanket?.ykrarhat);
+                                                        if (!filterItems9.Contains(item.blanket?.ysene))
+                                                            filterItems9.Add(item.blanket?.ysene);
+                                                        if (!filterItems10.Contains(item.eyesi))
+                                                            filterItems10.Add(item.eyesi);
+                                                        if (!filterItems11.Contains(item.bellik))
+                                                            filterItems11.Add(item.bellik);
+
+                                                        counter++;
+                                                    }
+                                                }
+
+                                                JournalHorses.Static_DgJournalHorses.ItemsSource = JournalHorses.Horseinfo;
+
+                                                JournalHorses.Static_DgJournalHorses.DataContext = new
+                                                {
+                                                    FilterItems = filterItems,
+                                                    FilterItems2 = filterItems2,
+                                                    FilterItems3 = filterItems3,
+                                                    FilterItems4 = filterItems4,
+                                                    FilterItems5 = filterItems5,
+                                                    FilterItems6 = filterItems6,
+                                                    FilterItems7 = filterItems7,
+                                                    FilterItems8 = filterItems8,
+                                                    FilterItems9 = filterItems9,
+                                                    FilterItems10 = filterItems10,
+                                                    FilterItems11 = filterItems11
+                                                };
+                                            }
+                                        }
+
+                                    });
+                                }
+                            }
+                            else if (response.StatusCode == HttpStatusCode.Forbidden)
+                            {
+                                HttpContent content = response.Content;
+                                MessageBox.Show("Rugsat ýok (Get_JournalHorses): " + await content.ReadAsStringAsync());
+                            }
+                            else
+                            {
+                                HttpContent content = response.Content;
+                                MessageBox.Show("Ýalňyşlyk: " + await content.ReadAsStringAsync());
+                            }
+                        }
+                    }
+                    catch (WebException ex)
+                    {
+                        WebExceptionStatus status = ex.Status;
+                        if (status == WebExceptionStatus.ProtocolError)
+                        {
+                            HttpWebResponse? httpResponse = (HttpWebResponse?)ex.Response;
+                            MessageBox.Show("Статусный код ошибки: " + (int?)httpResponse?.StatusCode + " - " + httpResponse?.StatusCode);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка WebException: " + ex.Message);
+                        }
+                    }
+                    catch (HttpRequestException request_ex)
+                    {
+                        MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
+                    }
+                }
+                if (MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
+            }
+        }
+        async public static Task Add_JournalHorses(string lakamy,string doglanyyl, string atasy,string enesi,string jynsy,
+            string renki,string biomaterial,string biosan,string probnomer,string eyesi,string nyshanlar,string bellik,string blanketid)
+        {
+            using (var form = new MultipartFormDataContent())
+            {
+                form.Add(new StringContent(lakamy), "lakamy");
+                form.Add(new StringContent(doglanyyl), "doglanyyl");
+                form.Add(new StringContent(atasy), "atasy");
+                form.Add(new StringContent(enesi), "enesi");
+                form.Add(new StringContent(jynsy), "jynsy");
+                form.Add(new StringContent(renki), "renki");
+                form.Add(new StringContent(biomaterial), "biomaterial");
+                form.Add(new StringContent(biosan), "biosan");
+                form.Add(new StringContent(probnomer), "probnomer");
+                form.Add(new StringContent(eyesi), "eyesi");
+                form.Add(new StringContent(nyshanlar), "nyshanlar");
+                form.Add(new StringContent(bellik), "bellik");
+                form.Add(new StringContent(blanketid), "blanketguid");
+
+                if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
+                {
+                    using (HttpClient client = new HttpClient())
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
+                        try
+                        {
+                            var a = form.ToList<HttpContent>();
+                            for (int i = 0; i < a.Count(); i++)
+                            {
+                                Debug.WriteLine("Form: " + "\nid: " + a[i].ReadAsStringAsync().Id.ToString() + " Result: " + a[i].ReadAsStringAsync().Result.ToString());
+                            }
+                            if (MainWindow.Static_Loader != null && MainWindow.Static_LoadingBorder != null)
+                            {
+                                MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Pen;
+                                MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                            }
+
+                            using (HttpResponseMessage response = await client.PostAsync(Urls.URL_AddJournalHorses, form))
+                            {
+
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    await Get_Blankets(Urls.URL_Blankets);
+                                    MessageBox.Show("Täze ykrarhat goşuldy!", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                                }
+                                else
+                                {   if (MainWindow.Static_LoadingBorder != null)
+                                        MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                                    MessageBox.Show("Ýalňyşlyk: \n" + await response.Content.ReadAsStringAsync());
+                                }
+
+                            }
+                        }
+                        catch (WebException ex)
+                        {   if (MainWindow.Static_LoadingBorder != null)
+                                MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                            WebExceptionStatus status = ex.Status;
+                            if (status == WebExceptionStatus.ProtocolError)
+                            {
+                                HttpWebResponse? httpResponse = (HttpWebResponse?)ex.Response;
+                                MessageBox.Show("Статусный код ошибки: " + (int?)httpResponse?.StatusCode + " - " + httpResponse?.StatusCode);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Ошибка WebException: " + ex.Message);
+                            }
+                        }
+                        catch (HttpRequestException request_ex)
+                        {   if (MainWindow.Static_LoadingBorder != null)
+                                MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                            MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
+                }
+            }
+        }
+
+        /*async public static Task Update_Blankets(string blanketid, string ykrarhat, string ysene, int san)
         {
             using (var form = new MultipartFormDataContent())
             {
@@ -500,27 +993,27 @@ namespace FrontB.Helpers
                             var a = form.ToList<HttpContent>();
                             for (int i = 0; i < a.Count(); i++)
                             {
-                                Debug.WriteLine("Form: " + "\nid: " + a[i].ReadAsStringAsync().Id.ToString() + " Result: " + a[i].ReadAsStringAsync().Result.ToString());
+                                Debug.WriteLine("Form: " + "id: " + a[i].ReadAsStringAsync().Id.ToString() + " Result: " + a[i].ReadAsStringAsync().Result.ToString());
                             }
 
                             MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Pen;
                             MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
 
-                            using (HttpResponseMessage response = await client.PostAsync(Urls.URL_Blankets, form))
+                            using (HttpResponseMessage response = await client.PutAsync(Urls.URL_Blankets + blanketid + "/", form))
                             {
-                               
-                                if (response.IsSuccessStatusCode)
-                                {                                   
-                                   await Get_Blankets(Urls.URL_Blankets);
-                                   MessageBox.Show("Täze ykrarhat goşuldy!", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);                              
-                                    
-                                }
-                                else
+                                using (HttpContent content = response.Content)
                                 {
-                                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                                    MessageBox.Show("Ýalňyşlyk: \n" + await response.Content.ReadAsStringAsync());
-                                }                             
-                                
+                                    if (response.IsSuccessStatusCode)
+                                    {
+                                        await Get_Blankets(Urls.URL_Blankets);
+                                        MessageBox.Show("Maglumatlar üstünlikli üýtgedildi!: ", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);
+                                    }
+                                    else
+                                    {
+                                        MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                                        MessageBox.Show("Ýalňyşlyk: \n" + await response.Content.ReadAsStringAsync());
+                                    }
+                                }
                             }
                         }
                         catch (WebException ex)
@@ -550,131 +1043,61 @@ namespace FrontB.Helpers
                 }
             }
         }
+        async public static Task Delete_Blanket(string blanekt_id)
+        {
+            if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
+                    try
+                    {
+                        MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Delete;
+                        MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
 
-          async public static Task Update_Blankets(string blanketid,string ykrarhat, string ysene, int san)
-          {
-              using (var form = new MultipartFormDataContent())
-              {
-                form.Add(new StringContent(ykrarhat), "ykrarhat");
-                form.Add(new StringContent(ysene), "ysene");
-                form.Add(new StringContent(san.ToString()), "san");
-
-                  if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
-                  {
-                      using (HttpClient client = new HttpClient())
-                      {
-                          client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
-                          try
-                          {
-                              var a = form.ToList<HttpContent>();
-                              for (int i = 0; i < a.Count(); i++)
-                              {
-                                  Debug.WriteLine("Form: " + "id: " + a[i].ReadAsStringAsync().Id.ToString() + " Result: " + a[i].ReadAsStringAsync().Result.ToString());
-                              }
-
-                              MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Pen;
-                              MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
-
-                              using (HttpResponseMessage response = await client.PutAsync(Urls.URL_Blankets + blanketid + "/", form))
-                              {
-                                  using (HttpContent content = response.Content)
-                                  {
-                                      if(response.IsSuccessStatusCode) 
-                                      {
-                                         await Get_Blankets(Urls.URL_Blankets);
-                                         MessageBox.Show("Maglumatlar üstünlikli üýtgedildi!: ", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);
-                                      }
-                                      else
-                                      {
-                                        MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                                        MessageBox.Show("Ýalňyşlyk: \n" + await response.Content.ReadAsStringAsync());
-                                      }
-                                  }
-                              }
-                          }
-                          catch (WebException ex)
-                          {
-                              MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                              WebExceptionStatus status = ex.Status;
-                              if (status == WebExceptionStatus.ProtocolError)
-                              {
-                                  HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
-                                  MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
-                              }
-                              else
-                              {
-                                  MessageBox.Show("Ошибка WebException: " + ex.Message);
-                              }
-                          }
-                          catch (HttpRequestException request_ex)
-                          {
-                              MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                              MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
-                          }
-                      }
-                  }
-                  else
-                  {
-                      MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
-                  }
-              }
-          }
-
-          async public static Task Delete_Blanket(string blanekt_id)
-          {
-              if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
-              {
-                  using (HttpClient client = new HttpClient())
-                  {
-                      client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
-                      try
-                      {
-                          MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Delete;
-                          MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
-
-                          using (HttpResponseMessage response = await client.DeleteAsync(Urls.URL_Blankets + blanekt_id + "/"))
-                          {
-                              using (HttpContent content = response.Content)
-                              {                                  
-                                  if (response.IsSuccessStatusCode)
-                                  {
-                                      await Get_Blankets(Urls.URL_Blankets);
-                                      MessageBox.Show("Maglumatlar üstünlikli pozuldy!", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);
-                                  }
-                                  else
-                                  {
-                                      MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                                      MessageBox.Show("Ýalňyşlyk: \n" + await response.Content.ReadAsStringAsync());
-                                  }
-                              }
-                          }
-                      }
-                      catch (WebException ex)
-                      {
-                          MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                          WebExceptionStatus status = ex.Status;
-                          if (status == WebExceptionStatus.ProtocolError)
-                          {
-                              HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
-                              MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
-                          }
-                          else
-                          {
-                              MessageBox.Show("Ошибка WebException: " + ex.Message);
-                          }
-                      }
-                      catch (HttpRequestException request_ex)
-                      {
-                          MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                          MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
-                      }
-                  }
-              }
-              else
-              {
-                  MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
-              }
-          }         
+                        using (HttpResponseMessage response = await client.DeleteAsync(Urls.URL_Blankets + blanekt_id + "/"))
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    await Get_Blankets(Urls.URL_Blankets);
+                                    MessageBox.Show("Maglumatlar üstünlikli pozuldy!", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);
+                                }
+                                else
+                                {
+                                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                                    MessageBox.Show("Ýalňyşlyk: \n" + await response.Content.ReadAsStringAsync());
+                                }
+                            }
+                        }
+                    }
+                    catch (WebException ex)
+                    {
+                        MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                        WebExceptionStatus status = ex.Status;
+                        if (status == WebExceptionStatus.ProtocolError)
+                        {
+                            HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
+                            MessageBox.Show("Статусный код ошибки: " + (int)httpResponse.StatusCode + " - " + httpResponse.StatusCode);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка WebException: " + ex.Message);
+                        }
+                    }
+                    catch (HttpRequestException request_ex)
+                    {
+                        MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                        MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
+            }
+        } */
         #endregion
     }
 }

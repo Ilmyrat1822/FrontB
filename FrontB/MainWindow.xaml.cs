@@ -2,7 +2,9 @@
 using FrontB.Helpers;
 using FrontB.Pages;
 using Syncfusion.Windows.Controls.Notification;
+using System.Diagnostics;
 using System.Security.Policy;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,11 +16,13 @@ namespace FrontB
 {
     public partial class MainWindow : Window
     {
-        public static Border Static_LoadingBorder;
-        public static SfBusyIndicator Static_Loader;        
+        public static Border? Static_LoadingBorder;
+        public static SfBusyIndicator? Static_Loader;        
         readonly Blankets blankets = new Blankets();
-        readonly AddJournalHorse journalHorse = new AddJournalHorse();   
-        public static Frame Static_Main_Frame;
+        readonly AddJournalHorse journalHorse = new AddJournalHorse();
+        readonly JournalHorses allhorses= new JournalHorses();
+        public static Frame? Static_Main_Frame;
+        int currentyear = DateTime.Now.Year;
         public MainWindow()
         {
             InitializeComponent();
@@ -27,12 +31,11 @@ namespace FrontB
             Static_Main_Frame = Main;
         }
         private async void Window_Loaded(object sender, RoutedEventArgs e)
-        {   int currentyear = DateTime.Now.Year;
-            await Requests.Login();
-            string url = Urls.URL_Blankets;
-            await Requests.Get_Blankets(url+"?search=");
+        {   
+            await Requests.Login();            
+            await Requests.Get_Blankets(Urls.URL_Blankets);
             await Requests.Get_Stats(currentyear);
-            await Requests.Get_Years();
+            await Requests.Get_Years();            
             Main.Content = blankets;        
         }
         private void Expander1_Expanded(object sender, RoutedEventArgs e)
@@ -54,7 +57,9 @@ namespace FrontB
             ColorsBlack();
             Ykrarhatlar.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#007602"));
             Blanketbtn.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ECFFED"));
-            await Requests.Get_Blankets(Urls.URL_Blankets);
+            await Requests.Get_Blankets(Urls.URL_Blankets);            
+            await Requests.Get_Stats(currentyear);
+            await Requests.Get_Years();
             Main.Content = blankets;
         }
         private async void Hasabaalmakbtn_Click(object sender, RoutedEventArgs e)
@@ -65,22 +70,24 @@ namespace FrontB
             await Requests.Get_Blankets(Urls.URL_Blankets);
             await Requests.Get_Colors();
             await Requests.Get_Owners();
-            AddJournalHorse.Static_ComboBlanket.Items.Clear();
+            journalHorse.tb_ykrar.Items.Clear();
             foreach (BlanketsClass b in Blankets.Blank)
             { 
                 if (b.Atsan < b.San)
-                {
-                    AddJournalHorse.Static_ComboBlanket.Items.Add(b.Ykrarhat);                   
+                {                  
+                    journalHorse.tb_ykrar.Items.Add(b.Ykrarhat);
                 }
             }
             Main.Content = journalHorse;
         }
-        private void Ahliatlarbtn_Click(object sender, RoutedEventArgs e)
+        private async void Ahliatlarbtn_Click(object sender, RoutedEventArgs e)
         {
             ColorsBlack();
             Ahliatlar.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#007602"));
             Ahliatlarbtn.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ECFFED"));
-            
+            await Requests.Get_JournalHorses(Urls.URL_AddJournalHorses);            
+            Main.Content = allhorses;
+
         }
         private void Expander2_Expanded(object sender, RoutedEventArgs e)
         {
@@ -260,5 +267,6 @@ namespace FrontB
                 App.Current.Shutdown();
             }
         }
+
     }
 }
