@@ -14,7 +14,8 @@ namespace FrontB.Helpers
         public static string URL_Blankets = StaticVariables.server_ip + "/api/blankets/";
         public static string URL_Colors = StaticVariables.server_ip + "/api/ahliatlar/colors/";
         public static string URL_Owners = StaticVariables.server_ip + "/api/ahliatlar/owners/";
-        public static string URL_AddJournalHorses = StaticVariables.server_ip + "/api/ahliatlar/";
+        public static string URL_Maxid = StaticVariables.server_ip + "/api/ahliatlar/maxid/";
+        public static string URL_JournalHorses = StaticVariables.server_ip + "/api/ahliatlar/";
 
 
     }

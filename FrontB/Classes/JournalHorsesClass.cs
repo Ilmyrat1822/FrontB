@@ -3,12 +3,12 @@ namespace FrontB.Classes
 {
    public class JournalHorsesClass
     {
-        public JournalHorsesClass(int? _counter, string _guid, string _lakamy, int? _doglanyyl, string _atasy,
+        public JournalHorsesClass(uint? _id, int? _tb, string _lakamy, int? _doglanyyl, string _atasy,
             string _enesi, string _jynsy, string _renki,string _biomaterial, int? _biosan, 
             string _probnomer, string _eyesi, string _nyshanlar,string _bellik, string? _yhat, string? _ysene)
         {   
-            this.Counter = _counter;
-            this.Guid = _guid;
+            this.Id = _id;
+            this.TB = _tb;
             this.Lakamy = _lakamy;
             this.Doglanyyl = _doglanyyl;
             this.Atasy = _atasy;
@@ -23,9 +23,9 @@ namespace FrontB.Classes
             this.Bellik = _bellik;        
             this.Yhat = _yhat;
             this.Ysene = _ysene;
-        }               
-        public int? Counter { get; set; }
-        public string Guid { get; set; }    
+        }
+        public uint? Id { get; set; }
+        public int? TB { get; set; }
         public string Lakamy { get; set; }
         public int? Doglanyyl { get; set; }
         public string Atasy { get; set; }

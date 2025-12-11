@@ -78,7 +78,8 @@ namespace FrontB.Helpers
         }
 
         #endregion
-        #region
+
+        #region Stats
         async public static Task Get_Stats(int year)
         {
 
@@ -271,15 +272,16 @@ namespace FrontB.Helpers
                                     var Root = JsonConvert.DeserializeObject<ColorsResponse>(result);
 
                                     if (Root != null)
-                                    {
-                                        AddJournalHorse.Static_ComboColors.Items.Clear();
+                                    {            
+                                        MainWindow.Static_Colors?.Clear();
+                                                                                  
                                         App.Current.Dispatcher.Invoke((Action)delegate
                                         {
                                             if (Root.colors != null)
                                             {
                                                 foreach (var item in Root.colors)
-                                                {
-                                                    AddJournalHorse.Static_ComboColors.Items.Add(new ComboBoxItem() { Content = item.renk });
+                                                {                                                  
+                                                    MainWindow.Static_Colors?.Add(item.renk);
                                                 }
                                             }
                                         });
@@ -353,19 +355,94 @@ namespace FrontB.Helpers
                                     var Root = JsonConvert.DeserializeObject<OwnersResponse>(result);
 
                                     if (Root != null)
-                                    {
-                                        AddJournalHorse.Static_ComboOwners.Items.Clear();
+                                    {                                       
+                                        MainWindow.Static_Owners?.Clear();
                                         App.Current.Dispatcher.Invoke((Action)delegate
                                         {
                                             if (Root.owners != null)
                                             {
                                                 foreach (var item in Root.owners)
                                                 {
-                                                    AddJournalHorse.Static_ComboOwners.Items.Add(new ComboBoxItem() { Content = item.owner });
+                                                    MainWindow.Static_Owners?.Add(item.owner);
                                                 }
                                             }
                                         });
                                     }
+                                }
+                            }
+                            else if (response.StatusCode == HttpStatusCode.Forbidden)
+                            {
+                                HttpContent content = response.Content;
+                                MessageBox.Show("Rugsat ýok (Get_Blankets): " + await content.ReadAsStringAsync());
+                            }
+                            else
+                            {
+                                HttpContent content = response.Content;
+                                MessageBox.Show("Ýalňyşlyk: " + await content.ReadAsStringAsync());
+                            }
+                        }
+                    }
+                    catch (WebException ex)
+                    {
+                        WebExceptionStatus status = ex.Status;
+                        if (status == WebExceptionStatus.ProtocolError)
+                        {
+                            HttpWebResponse? httpResponse = (HttpWebResponse?)ex.Response;
+                            MessageBox.Show("Статусный код ошибки: " + (int?)httpResponse?.StatusCode + " - " + httpResponse?.StatusCode);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка WebException: " + ex.Message);
+                        }
+                    }
+                    catch (HttpRequestException request_ex)
+                    {
+                        MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
+                    }
+                }
+                if (MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
+            }
+
+
+        }
+        async public static Task Get_Maxid()
+        {
+
+            if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
+            {
+                if (MainWindow.Static_Loader != null && MainWindow.Static_LoadingBorder != null)
+                {
+                    MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Cupertino;
+                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
+                }
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
+                    try
+                    {
+                        using (HttpResponseMessage response = await client.GetAsync(Urls.URL_Maxid))
+                        {
+                            if (response.StatusCode == HttpStatusCode.OK)
+                            {
+                                using (HttpContent content = response.Content)
+                                {
+                                    string result = await content.ReadAsStringAsync();
+                                    var Root = JsonConvert.DeserializeObject<int>(result);
+                                    
+                                    App.Current.Dispatcher.Invoke((Action)delegate
+                                    {                                     
+                                      MainWindow.Static_Maxid= Root;
+                                       
+                                    });
+                                    
                                 }
                             }
                             else if (response.StatusCode == HttpStatusCode.Forbidden)
@@ -440,49 +517,50 @@ namespace FrontB.Helpers
                                     App.Current.Dispatcher.Invoke((Action)delegate
                                     {
                                         Blankets.Blank.Clear();
+                                        MainWindow.Static_Blankets?.Clear();
                                         if (Blankets.Static_DgBlankets != null)
                                         {
                                             Blankets.Static_DgBlankets.ItemsSource = null;
                                             if (Root?.total != 0)
                                             {
-                                                int counter = 1;
-
-                                                var filterItems = new List<int>();
+                                                var filterItems = new List<int?>();
                                                 var filterItems2 = new List<string?>();
                                                 var filterItems3 = new List<string?>();
                                                 var filterItems4 = new List<string?>();
                                                 var filterItems5 = new List<string?>();
                                                 if (Root?.list != null)
                                                 {
+                                                    int tb = 1;
                                                     foreach (var item in Root.list)
-                                                    {
-                                                        Blankets.Blank.Add(new BlanketsClass(counter, item?.guid, item?.ykrarhat,
-                                                             item?.ysene, item?.san, item?.atsan, item?.bellik, item?.horses));
+                                                    {   
+                                                        Blankets.Blank.Add(new BlanketsClass(item?.id, tb, item?.ykrarhat,
+                                                             item?.sene, item?.atsan, item?.atcount, item?.bellik, item?.horses));
 
-
-                                                        if (!filterItems.Contains(counter))
-                                                            filterItems.Add(counter);
+                                                        if (item?.ykrarhat!=null)
+                                                        {
+                                                            MainWindow.Static_Blankets?.Add(item.ykrarhat); 
+                                                        }
+                                                        if (!filterItems.Contains(item?.tb))
+                                                            filterItems.Add(item?.tb);
 
                                                         if (!filterItems2.Contains(item?.ykrarhat))
                                                             filterItems2.Add(item?.ykrarhat);
 
-                                                        if (!filterItems3.Contains(item?.ysene))
-                                                            filterItems3.Add(item?.ysene);
+                                                        if (!filterItems3.Contains(item?.sene))
+                                                            filterItems3.Add(item?.sene);
 
-                                                        string? sanStr = item?.san.ToString();
+                                                        string? sanStr = item?.atsan.ToString();
                                                         if (!filterItems4.Contains(sanStr))
                                                             filterItems4.Add(sanStr);
 
-                                                        string? atsanStr = item?.atsan.ToString();
+                                                        string? atsanStr = item?.atcount.ToString();
                                                         if (!filterItems5.Contains(atsanStr))
                                                             filterItems5.Add(atsanStr);
-
-                                                        counter++;
-
+                                                        tb++;
                                                     }
 
                                                     Blankets.Static_DgBlankets.ItemsSource = Blankets.Blank;
-
+                                                    
                                                     Blankets.Static_DgBlankets.DataContext = new
                                                     {
                                                         FilterItems = filterItems,
@@ -539,14 +617,13 @@ namespace FrontB.Helpers
 
             
         }
-        async public static Task Add_Blankets(string ykrarhat, string? ysene, int san)
-        {
-            if (ysene != null) 
+        async public static Task Add_Blankets(string ykrarhat, string sene, string atsan)
+        {           
             using (var form = new MultipartFormDataContent())
-            {
+            {   
                 form.Add(new StringContent(ykrarhat), "ykrarhat");               
-                form.Add(new StringContent(ysene), "ysene");
-                form.Add(new StringContent(san.ToString()), "san");
+                form.Add(new StringContent(sene), "sene");
+                form.Add(new StringContent(atsan), "atsan");
 
                 if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
                 {
@@ -612,16 +689,17 @@ namespace FrontB.Helpers
                 }
             }
         }
-        async public static Task Update_Blankets(string? blanketid,string? ykrarhat, string? ysene, string? san)
-          {
-            if (blanketid != null && ykrarhat != null && ysene != null && san != null)
-            
-               
-            using (var form = new MultipartFormDataContent())
-              {
-                form.Add(new StringContent(ykrarhat), "ykrarhat");
-                form.Add(new StringContent(ysene), "ysene");
-                form.Add(new StringContent(san), "san");
+        async public static Task Update_Blankets(string? blanketid,string? ykrarhat, string? sene, string? atsan,string? atcount)
+        {      
+              using (var form = new MultipartFormDataContent())
+              {   if (ykrarhat!=null)               
+                    form.Add(new StringContent(ykrarhat), "ykrarhat");
+                  if (sene!=null)
+                    form.Add(new StringContent(sene), "sene");
+                  if (atsan!=null)
+                    form.Add(new StringContent(atsan), "atsan");
+                  if (atcount!=null)
+                    form.Add(new StringContent(atcount), "atcount");
 
                   if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
                   {
@@ -662,8 +740,8 @@ namespace FrontB.Helpers
                           }
                           catch (WebException ex)
                           {
-                                if (MainWindow.Static_LoadingBorder != null)
-                                    MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                              if (MainWindow.Static_LoadingBorder != null)
+                                  MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
                               WebExceptionStatus status = ex.Status;
                               if (status == WebExceptionStatus.ProtocolError)
                               {
@@ -690,21 +768,21 @@ namespace FrontB.Helpers
               }
           }
         async public static Task Delete_Blanket(string? blanekt_id)
-          {
-              if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
-              {
-                  using (HttpClient client = new HttpClient())
-                  {
-                      client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
-                      try
-                      {
-                        if (MainWindow.Static_Loader != null && MainWindow.Static_LoadingBorder != null)
+        {
+            if (!string.IsNullOrWhiteSpace(StaticVariables.access_token))
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", StaticVariables.access_token);
+                    try
+                    {
+                      if (MainWindow.Static_Loader != null && MainWindow.Static_LoadingBorder != null)
                         {
                             MainWindow.Static_Loader.AnimationType = Syncfusion.Windows.Controls.Notification.AnimationTypes.Delete;
                             MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
                         }
 
-                          using (HttpResponseMessage response = await client.DeleteAsync(Urls.URL_Blankets + blanekt_id + "/"))
+                        using (HttpResponseMessage response = await client.DeleteAsync(Urls.URL_Blankets + blanekt_id + "/"))
                           {
                               using (HttpContent content = response.Content)
                               {                                  
@@ -720,34 +798,35 @@ namespace FrontB.Helpers
                                   }
                               }
                           }
-                      }
-                      catch (WebException ex)
-                      { 
-                        if (MainWindow.Static_LoadingBorder != null)
-                            MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                          WebExceptionStatus status = ex.Status;
-                          if (status == WebExceptionStatus.ProtocolError)
+                    }
+                    catch (WebException ex)
+                    { 
+                      if (MainWindow.Static_LoadingBorder != null)
+                          MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                        WebExceptionStatus status = ex.Status;
+                        if (status == WebExceptionStatus.ProtocolError)
                           {
                               HttpWebResponse? httpResponse = (HttpWebResponse?)ex.Response;
                               MessageBox.Show("Статусный код ошибки: " + (int?)httpResponse?.StatusCode + " - " + httpResponse?.StatusCode);
                           }
-                          else
+                        else
                           {
                               MessageBox.Show("Ошибка WebException: " + ex.Message);
                           }
-                      }
-                      catch (HttpRequestException request_ex)
-                      {   if (MainWindow.Static_LoadingBorder != null)
-                            MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
-                          MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
-                      }
-                  }
-              }
-              else
-              {
-                  MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
-              }
-          }
+                    }
+                    catch (HttpRequestException request_ex)
+                    {   
+                        if (MainWindow.Static_LoadingBorder != null)
+                          MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
+                        MessageBox.Show("Ошибка HttpRequestException: " + request_ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
+            }
+        }
         #endregion
 
         #region Ahliatlar
@@ -781,53 +860,54 @@ namespace FrontB.Helpers
                                             JournalHorses.Horseinfo.Clear();
                                             JournalHorses.Static_DgJournalHorses.ItemsSource = null;
                                             if (Root?.total != 0)
-                                            {
-                                                int counter = 1;
-
-                                                var filterItems = new List<int>();
-                                                var filterItems2 = new List<string>();
+                                            {                                                
+                                                var filterItems = new List<uint?>();
+                                                var filterItems2 = new List<string?>();
                                                 var filterItems3 = new List<string?>();
-                                                var filterItems4 = new List<string>();
-                                                var filterItems5 = new List<string>();
-                                                var filterItems6 = new List<string>();
-                                                var filterItems7 = new List<string>();
+                                                var filterItems4 = new List<string?>();
+                                                var filterItems5 = new List<string?>();
+                                                var filterItems6 = new List<string?>();
+                                                var filterItems7 = new List<string?>();
                                                 var filterItems8 = new List<string?>();
                                                 var filterItems9 = new List<string?>();
-                                                var filterItems10 = new List<string>();
-                                                var filterItems11 = new List<string>();
+                                                var filterItems10 = new List<string?>();
+                                                var filterItems11 = new List<string?>();
                                                 if (Root?.list != null)
                                                 {
+                                                    int tb=Root.total;
+
                                                     foreach (var item in Root.list)
                                                     {
-                                                        JournalHorses.Horseinfo.Add(new JournalHorsesClass(counter, item.guid,
+                                                        JournalHorses.Horseinfo.Add(new JournalHorsesClass(item.id, tb,
                                                             item.lakamy, item.doglanyyl, item.atasy, item.enesi,
                                                             item.jynsy, item.renki, item.biomaterial, item.biosan,
-                                                            item.probnomer, item.eyesi, item.nyshanlar, item.bellik, item.blanket?.ykrarhat, item.blanket?.ysene));
+                                                            item.probnomer, item.eyesi, item.nyshanlar, item.bellik,
+                                                            item.blanket?.ykrarhat, item.blanket?.sene));
 
-                                                        if (!filterItems.Contains(counter))
-                                                            filterItems.Add(counter);
-                                                        if (!filterItems2.Contains(item.lakamy))
-                                                            filterItems2.Add(item.lakamy);
-                                                        if (!filterItems3.Contains(item.doglanyyl.ToString()))
-                                                            filterItems3.Add(item.doglanyyl.ToString());
-                                                        if (!filterItems4.Contains(item.atasy))
-                                                            filterItems4.Add(item.atasy);
-                                                        if (!filterItems5.Contains(item.enesi))
-                                                            filterItems5.Add(item.enesi);
-                                                        if (!filterItems6.Contains(item.jynsy))
-                                                            filterItems6.Add(item.jynsy);
-                                                        if (!filterItems7.Contains(item.renki))
-                                                            filterItems7.Add(item.renki);
-                                                        if (!filterItems8.Contains(item.blanket?.ykrarhat))
-                                                            filterItems8.Add(item.blanket?.ykrarhat);
-                                                        if (!filterItems9.Contains(item.blanket?.ysene))
-                                                            filterItems9.Add(item.blanket?.ysene);
-                                                        if (!filterItems10.Contains(item.eyesi))
-                                                            filterItems10.Add(item.eyesi);
-                                                        if (!filterItems11.Contains(item.bellik))
-                                                            filterItems11.Add(item.bellik);
+                                                        if (!filterItems.Contains(item?.tb))
+                                                            filterItems.Add(item?.tb); 
+                                                        if (!filterItems2.Contains(item?.lakamy))
+                                                            filterItems2.Add(item?.lakamy);
+                                                        if (!filterItems3.Contains(item?.doglanyyl.ToString()))
+                                                            filterItems3.Add(item?.doglanyyl.ToString());
+                                                        if (!filterItems4.Contains(item?.atasy))
+                                                            filterItems4.Add(item?.atasy);
+                                                        if (!filterItems5.Contains(item?.enesi))
+                                                            filterItems5.Add(item?.enesi);
+                                                        if (!filterItems6.Contains(item?.jynsy))
+                                                            filterItems6.Add(item?.jynsy);
+                                                        if (!filterItems7.Contains(item?.renki))
+                                                            filterItems7.Add(item?.renki);
+                                                        if (!filterItems8.Contains(item?.blanket?.ykrarhat))
+                                                            filterItems8.Add(item?.blanket?.ykrarhat);
+                                                        if (!filterItems9.Contains(item?.blanket?.sene))
+                                                            filterItems9.Add(item?.blanket?.sene);
+                                                        if (!filterItems10.Contains(item?.eyesi))
+                                                            filterItems10.Add(item?.eyesi);
+                                                        if (!filterItems11.Contains(item?.bellik))
+                                                            filterItems11.Add(item?.bellik);
 
-                                                        counter++;
+                                                        tb--;
                                                     }
                                                 }
 
@@ -893,9 +973,12 @@ namespace FrontB.Helpers
                 MessageBox.Show("Tokeniň wagty gutardy, programmany täzeden açyň!");
             }
         }
-        async public static Task Add_JournalHorses(string lakamy,string doglanyyl, string atasy,string enesi,string jynsy,
-            string renki,string biomaterial,string biosan,string probnomer,string eyesi,string nyshanlar,string bellik,string blanketid)
+                
+        async public static Task Add_JournalHorses(string lakamy,string? doglanyyl, string atasy,string enesi,string jynsy,
+            string renki,string biomaterial,string biosan,string probnomer,string eyesi,string nyshanlar,string bellik,string? blanketid,int? atsan)
         {
+            if (doglanyyl!=null && blanketid!=null)
+
             using (var form = new MultipartFormDataContent())
             {
                 form.Add(new StringContent(lakamy), "lakamy");
@@ -930,21 +1013,20 @@ namespace FrontB.Helpers
                                 MainWindow.Static_LoadingBorder.Visibility = Visibility.Visible;
                             }
 
-                            using (HttpResponseMessage response = await client.PostAsync(Urls.URL_AddJournalHorses, form))
+                            using (HttpResponseMessage response = await client.PostAsync(Urls.URL_JournalHorses, form))
                             {
-
                                 if (response.IsSuccessStatusCode)
                                 {
                                     await Get_Blankets(Urls.URL_Blankets);
                                     MessageBox.Show("Täze ykrarhat goşuldy!", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);
-
+                                    atsan++;
+                                    await Update_Blankets(blanketid,null,null,null,atsan.ToString());
                                 }
                                 else
                                 {   if (MainWindow.Static_LoadingBorder != null)
                                         MainWindow.Static_LoadingBorder.Visibility = Visibility.Collapsed;
                                     MessageBox.Show("Ýalňyşlyk: \n" + await response.Content.ReadAsStringAsync());
                                 }
-
                             }
                         }
                         catch (WebException ex)

@@ -17,6 +17,13 @@ namespace FrontB
     public partial class MainWindow : Window
     {
         public static Border? Static_LoadingBorder;
+        public static List<string>? Static_Colors;
+        public static List<string>? Static_Owners;
+        public static List<string>? Static_Blankets;
+        public static Int64 Static_Maxid;
+        List<string>? HorseColors = new List<string>();
+        List<string>? HorseOwners = new List<string>();
+        List<string>? HorseBlankets = new List<string>();
         public static SfBusyIndicator? Static_Loader;        
         readonly Blankets blankets = new Blankets();
         readonly AddJournalHorse journalHorse = new AddJournalHorse();
@@ -29,13 +36,18 @@ namespace FrontB
             Static_LoadingBorder = LoadingPanel;
             Static_Loader = loader;
             Static_Main_Frame = Main;
+            Static_Colors = HorseColors;
+            Static_Owners = HorseOwners;
+            Static_Blankets = HorseBlankets;
         }
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {   
             await Requests.Login();            
             await Requests.Get_Blankets(Urls.URL_Blankets);
             await Requests.Get_Stats(currentyear);
-            await Requests.Get_Years();            
+            await Requests.Get_Years();
+            await Requests.Get_Colors();
+            await Requests.Get_Owners();
             Main.Content = blankets;        
         }
         private void Expander1_Expanded(object sender, RoutedEventArgs e)
@@ -67,17 +79,14 @@ namespace FrontB
             ColorsBlack();
             Hasabalmak.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#007602"));
             Hasabaalmakbtn.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ECFFED"));
-            await Requests.Get_Blankets(Urls.URL_Blankets);
-            await Requests.Get_Colors();
-            await Requests.Get_Owners();
-            journalHorse.tb_ykrar.Items.Clear();
-            foreach (BlanketsClass b in Blankets.Blank)
-            { 
-                if (b.Atsan < b.San)
-                {                  
-                    journalHorse.tb_ykrar.Items.Add(b.Ykrarhat);
-                }
-            }
+            await Requests.Get_Maxid();
+            journalHorse.tb_ykrar.ItemsSource = null;
+            journalHorse.tb_ykrar.ItemsSource = Static_Blankets;
+            journalHorse.combo_renki.ItemsSource = null;
+            journalHorse.combo_renki.ItemsSource = Static_Colors;
+            journalHorse.tb_doglanYeri.ItemsSource = null;
+            journalHorse.tb_doglanYeri.ItemsSource = Static_Owners;
+            journalHorse.tb_belgi.Value = Static_Maxid;
             Main.Content = journalHorse;
         }
         private async void Ahliatlarbtn_Click(object sender, RoutedEventArgs e)
@@ -85,7 +94,7 @@ namespace FrontB
             ColorsBlack();
             Ahliatlar.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#007602"));
             Ahliatlarbtn.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ECFFED"));
-            await Requests.Get_JournalHorses(Urls.URL_AddJournalHorses);            
+            await Requests.Get_JournalHorses(Urls.URL_JournalHorses);            
             Main.Content = allhorses;
 
         }

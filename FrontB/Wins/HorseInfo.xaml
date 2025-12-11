@@ -3,10 +3,317 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         xmlns:local="clr-namespace:FrontB.Wins"
-        mc:Ignorable="d"
-        Title="HorseInfo" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        mc:Ignorable="d" Background="Transparent"        
+        Title="AtInfo" Height="757" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Width="1358" AllowsTransparency="True">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/InputTemplates.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Border CornerRadius="29" Margin="5" Background="White">
+        <Border CornerRadius="29" Margin="5" Background="White">
+            <Border.Effect>
+                <DropShadowEffect Direction="270" ShadowDepth="5" 
+                    Opacity="0.25" BlurRadius="20" Color="#FF666666"/>
+            </Border.Effect>
+            <Border CornerRadius="29" Margin="0" Background="#e8e8e8">
+                <Grid Margin="5" Background="Transparent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="White" CornerRadius="6" Margin="5">
+                            <Viewbox Grid.Column="1" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Grid Grid.Column="0" Margin="0 0 0 5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <TextBlock Style="{StaticResource InputTextBlock}"                 
+                                                Text="Lakamy"/>
+                                            <Border Style="{StaticResource InputBorderOuter}">
+                                                <Border Style="{StaticResource InputBorderInner}">
+                                                    <TextBox Style="{StaticResource InputTextBox}"                                                        
+                                                        Name="tb_lakamy" GotFocus="TBGotFocus"/>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                        <Grid Grid.Column="1" Margin="0 0 15 0">
+                                            <TextBlock Style="{StaticResource InputTextBlock}"                                                         
+                                                Text="Doglan ýyly"/>
+                                            <Border Style="{StaticResource InputBorderOuter}">
+                                                <Border Style="{StaticResource InputBorderInner}">
+                                                    <xctk:IntegerUpDown Name="tb_doglanYyly"
+                                                        VerticalAlignment="Center" Minimum="0"
+                                                        HorizontalAlignment="Center" Increment="1"       
+                                                        Background="Transparent" Width="198"
+                                                        BorderThickness="0" Height="37"
+                                                        FontSize="18" Padding="6" GotFocus="TBGotFocus"/>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <TextBlock Style="{StaticResource InputTextBlock}"                                        
+                                                Text="Reňki"/>
+                                            <Border Style="{StaticResource InputBorderOuter}">
+                                                <Border Style="{StaticResource InputBorderInner}">
+                                                    <ComboBox Name="combo_renki" VerticalAlignment="Center"                                                    
+                                                        HorizontalAlignment="Center" Width="198"
+                                                        Background="Transparent" Height="37" GotFocus="TBGotFocus"
+                                                        Padding="6" FontSize="18" BorderThickness="0"/>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                        <Grid Grid.Column="1" Margin="0 0 15 0">
+                                            <TextBlock Style="{StaticResource InputTextBlock}"                                      
+                                                Text="Jynsy"/>
+                                            <Border Style="{StaticResource InputBorderOuter}">
+                                                <Border Style="{StaticResource InputBorderInner}">
+                                                    <ComboBox Name="tb_jynsy" VerticalAlignment="Center"                                                   
+                                                        HorizontalAlignment="Center" Width="198"
+                                                        Background="Transparent" Height="37" GotFocus="TBGotFocus"                               
+                                                        Padding="6" FontSize="18" BorderThickness="0">
+                                                        <ComboBoxItem Content="at"></ComboBoxItem>
+                                                        <ComboBoxItem Content="baýtal"></ComboBoxItem>
+                                                        <ComboBoxItem Content="näbelli"></ComboBoxItem>
+                                                    </ComboBox>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Margin="0 0 15 0"
+                                        Grid.Column="0">
+                                            <TextBlock Style="{StaticResource InputTextBlock}"
+                                                Text="Atasy"/>
+                                            <Border Style="{StaticResource InputBorderOuter}">
+                                                <Border Style="{StaticResource InputBorderInner}">
+                                                    <TextBox Name="tb_atasy" GotFocus="TBGotFocus"
+                                                        Style="{StaticResource InputTextBox}"/>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                        <Grid Grid.Column="1" Margin="0 0 15 0">
+                                            <TextBlock Style="{StaticResource InputTextBlock}" 
+                                                Text="Enesi"/>
+                                            <Border Style="{StaticResource InputBorderOuter}">
+                                                <Border Style="{StaticResource InputBorderInner}">
+                                                    <TextBox Name="tb_enesi" GotFocus="TBGotFocus"
+                                                        Style="{StaticResource InputTextBox}"/>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Viewbox>
+                        </Border>
+                        <Border Grid.Column="1" Background="White" CornerRadius="6" Margin="5">
+                            <Grid>
+                                <materialDesign:PackIcon Kind="Close"
+                                     Width="30" Height="30" Foreground="#FF0000"
+                                     VerticalAlignment="Top" Margin="0 10 10 0"                                    
+                                     HorizontalAlignment="Right"/>
+                                <Button Name="Closebtn" Click="Closebtn_Click"
+                                    Cursor="Hand" Width="32" Height="32"
+                                    VerticalAlignment="Top" HorizontalAlignment="Right"                       
+                                    Margin="0 10 10 0" Foreground="White"
+                                    FontFamily="Montserrat" Background="Transparent"                        
+                                    BorderThickness="0"/>
+                                <Viewbox Stretch="Uniform" Grid.Column="1"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center">
+                                    <Grid Margin="0 0 0 5">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0 ">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0" Margin="0 0 15 0">
+                                                <TextBlock Style="{StaticResource InputTextBlock}"                 
+                                                    Text="Tertip belgi"/>
+                                                <Border Style="{StaticResource InputBorderOuter}">
+                                                    <Border Style="{StaticResource InputBorderInner}">
+                                                        <syncfusion:IntegerTextBox Name="tb_belgi" GotFocus="TBGotFocus"
+                                                            HorizontalAlignment="Center" Width="198" Height="37" 
+                                                            Background="Transparent" Padding="6" FontSize="18"
+                                                            BorderThickness="0" VerticalAlignment="Center" />
+                                                    </Border>
+                                                </Border>
+                                            </Grid>
+                                            <Grid Grid.Column="1" Margin="0 0 15 0">
+                                                <TextBlock Style="{StaticResource InputTextBlock}"                                                                     
+                                                    Text="Ykrar hatyň nomeri"/>
+                                                <Border Style="{StaticResource InputBorderOuter}">
+                                                    <Border Style="{StaticResource InputBorderInner}">
+                                                        <ComboBox Name="tb_ykrar" VerticalAlignment="Center"                                                             
+                                                            HorizontalAlignment="Center" Width="198"
+                                                            Background="Transparent" Height="37" GotFocus="TBGotFocus"
+                                                            Padding="6" BorderThickness="0" FontSize="18"/>
+                                                    </Border>
+                                                </Border>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0" Margin="0 0 15 0">
+                                                <TextBlock Style="{StaticResource InputTextBlock}"               
+                                                    Text="Ykrar hatyň senesi"/>
+                                                <Border Style="{StaticResource InputBorderOuter}">
+                                                    <Border Style="{StaticResource InputBorderInner}">
+                                                        <DatePicker Name="tb_ysene" VerticalAlignment="Center"
+                                                            HorizontalAlignment="Center" Width="198" Padding="6"
+                                                            Background="Transparent" IsEnabled="False" GotFocus="TBGotFocus"
+                                                            Language="tk-TM" Height="37" BorderThickness="0"
+                                                            SelectedDateFormat="Short" FontSize="18"/>
+                                                    </Border>
+                                                </Border>
+                                            </Grid>
+                                            <Grid Grid.Column="1" Margin="0 0 15 0">
+                                                <TextBlock Style="{StaticResource InputTextBlock}"                 
+                                                    Text="Prob nomer"/>
+                                                <Border Style="{StaticResource InputBorderOuter}">
+                                                    <Border Style="{StaticResource InputBorderInner}">
+                                                        <syncfusion:IntegerTextBox Name="tb_probnomer" Width="198"
+                                                            VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                            Height="37" Background="Transparent" Padding="6" FontSize="18"
+                                                            BorderThickness="0" GotFocus="TBGotFocus"/>
+                                                    </Border>
+                                                </Border>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid Grid.Row="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0" Margin="0 0 25 0">
+                                                <TextBlock Style="{StaticResource InputTextBlockWide}"                                                                  
+                                                    Text="Biomaterialyň görnüşi"/>
+                                                <Border Style="{StaticResource InputBorderOuter}">
+                                                    <Border Style="{StaticResource InputBorderInner}">
+                                                        <ComboBox Name="Combo_biomaterial" VerticalAlignment="Center"                                                            
+                                                            HorizontalAlignment="Center" Background="Transparent"
+                                                            Width="198" Height="37" Padding="6" FontSize="18"                                                                                                        
+                                                            BorderThickness="0" GotFocus="TBGotFocus">
+                                                            <ComboBoxItem Content="ýok"></ComboBoxItem>
+                                                            <ComboBoxItem Content="ýal"></ComboBoxItem>
+                                                            <ComboBoxItem Content="gan"></ComboBoxItem>
+                                                            <ComboBoxItem Content="süňk"></ComboBoxItem>
+                                                        </ComboBox>
+                                                    </Border>
+                                                </Border>
+                                            </Grid>
+                                            <Grid Grid.Column="1" Margin="0 0 25 0">
+                                                <TextBlock Style="{StaticResource InputTextBlock}"
+                                                    Margin="10 8 0 0" Text="Biomaterialyň sany"/>
+                                                <Border Style="{StaticResource InputBorderOuter}">
+                                                    <Border Style="{StaticResource InputBorderInner}">
+                                                        <syncfusion:IntegerTextBox Name="tb_biosan" Width="198"
+                                                            Height="37" VerticalAlignment="Center" Padding="6"
+                                                            HorizontalAlignment="Center" FontSize="18" GotFocus="TBGotFocus"
+                                                            Background="Transparent" BorderThickness="0"/>
+                                                    </Border>
+                                                </Border>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Viewbox>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <Grid Grid.Row="1" Background="Transparent">
+                        <Border Grid.Column="0" Background="White" CornerRadius="6" Margin="5">
+                            <Viewbox Stretch="Uniform" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                <Grid Margin="5 0 5 5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0" Margin="5 0 5 5">
+                                        <TextBlock Style="{StaticResource InputTextBlockWide}"                                        
+                                            Text="Bedewiň eýesi ýa-da hojalygy"/>
+                                        <Border  Style="{StaticResource InputBorderOuterWide}">
+                                            <Border Style="{StaticResource InputBorderInnerWide}">
+                                                <ComboBox Name="tb_doglanYeri" VerticalAlignment="Center"                                                    
+                                                    HorizontalAlignment="Center" Width="948"
+                                                    Background="Transparent" Height="67"
+                                                    BorderThickness="0" Padding="6" GotFocus="TBGotFocus"
+                                                    IsTextSearchEnabled="False" FontSize="18"
+                                                    IsEditable="True" StaysOpenOnEdit="True"/>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Grid Grid.Row="1" Margin="5">
+                                        <TextBlock Style="{StaticResource InputTextBlockWide}"                   
+                                            Text="Nyşanlaryň ýazmaça gönüşi"/>
+                                        <Border Style="{StaticResource InputBorderOuterWide}">
+                                            <Border Style="{StaticResource InputBorderInnerWide}">
+                                                <TextBox Name="tb_nyshanlar" GotFocus="TBGotFocus"
+                                                    Style="{StaticResource InputTextBoxWide}"/>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Grid Grid.Row="2" Margin="5">
+                                        <TextBlock Style="{StaticResource InputTextBlock}"                                            
+                                            Text="Bellik"/>
+                                        <Border Style="{StaticResource InputBorderOuterWide}">
+                                            <Border Style="{StaticResource InputBorderInnerWide}">
+                                                <TextBox Name="tb_bellik" GotFocus="TBGotFocus"
+                                                    Style="{StaticResource InputTextBoxWide}"/>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Button Grid.Row="3" Name="Hasabaalmakbtn"
+                                        Style="{StaticResource DefaultButtonUpdate}"  
+                                        Margin="10" Width="178" Height="42"
+                                        Click="Hasabaalmakbtn_Click" Opacity="0.2"                                                  
+                                        Content="Ýatda saklamak"/>
+                                </Grid>
+                            </Viewbox>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Border>
+    </Border>
 </Window>

@@ -361,7 +361,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{StaticResource DataGridTextColumnStyle}"
-                                        Text="{Binding Counter}"/>
+                                        Text="{Binding TB}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -409,7 +409,7 @@
                         <DataGridTemplateColumn Width="190" MinWidth="150" MaxWidth="500" CanUserResize="True">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <Expander Width="180" Name="Ysene"
+                                    <Expander Width="180" Name="Sene"
                                         Background="#F7F8FA"
                                         Loaded="Expander_Loaded"
                                         MouseRightButtonDown="Expander_MouseRightButtonDown">
@@ -443,14 +443,14 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{StaticResource DataGridTextColumnStyle}"
-                                        Text="{Binding Ysene}"/>
+                                        Text="{Binding Sene}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Width="190" MinWidth="150" MaxWidth="500" CanUserResize="True">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <Expander Width="180" Name="San"
+                                    <Expander Width="180" Name="Atsan"
                                         Background="#F7F8FA"
                                         Loaded="Expander_Loaded"
                                         MouseRightButtonDown="Expander_MouseRightButtonDown">
@@ -483,14 +483,14 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{StaticResource DataGridTextColumnStyle}"                                            
-                                        Text="{Binding San}"/>
+                                        Text="{Binding Atsan}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Width="190" MinWidth="150" MaxWidth="500" CanUserResize="True">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <Expander Width="180" Name="Atsan"
+                                    <Expander Width="180" Name="Atcount"
                                         Background="#F7F8FA"
                                         Loaded="Expander_Loaded"
                                         MouseRightButtonDown="Expander_MouseRightButtonDown">
@@ -523,7 +523,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{StaticResource DataGridTextColumnStyle}"
-                    Text="{Binding Atsan}"/>
+                                        Text="{Binding Atcount}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

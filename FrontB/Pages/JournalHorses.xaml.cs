@@ -1,7 +1,9 @@
 ﻿using FrontB.Classes;
+using FrontB.Helpers;
 using FrontB.Wins;
 using Syncfusion.Windows.Tools.Controls;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,7 +18,7 @@ namespace FrontB.Pages
         public static DataGrid? Static_DgJournalHorses;
         FilterDataContext dataContext;
         FilterHelper<JournalHorsesClass> filterHelper;
-        public static string? guid;
+        public static string? Id;
         public static int biomaterialsan = 0;
         private Dictionary<string, ComboBoxAdv> comboBoxes = new Dictionary<string, ComboBoxAdv>();
         private Dictionary<string, TextBox> textBoxes = new Dictionary<string, TextBox>();
@@ -35,7 +37,7 @@ namespace FrontB.Pages
             {
                 PropertySelectors = new Dictionary<string, Func<JournalHorsesClass, object>>()
                 {
-                    ["Counter"] = x => x.Counter.ToString() ?? "",
+                    ["TB"] = x => x.TB.ToString() ?? "",
                     ["Lakamy"] = x => x.Lakamy?.ToString() ?? "",
                     ["Doglanyyl"] = x => x.Doglanyyl?.ToString() ?? "",
                     ["Atasy"] = x => x.Atasy?.ToString() ?? "",
@@ -49,7 +51,7 @@ namespace FrontB.Pages
                 },
                 TextBoxToColumn = new Dictionary<string, string>()
                 {
-                    ["Searchtb"] = "Counter",
+                    ["Searchtb"] = "TB",
                     ["Searchtb2"] = "Lakamy",
                     ["Searchtb3"] = "Doglanyyl",
                     ["Searchtb4"] = "Atasy",
@@ -63,7 +65,7 @@ namespace FrontB.Pages
                 },
                 ComboBoxToColumn = new Dictionary<string, string>()
                 {
-                    ["Tbcombo"] = "Counter",
+                    ["Tbcombo"] = "TB",
                     ["Tbcombo2"] = "Lakamy",
                     ["Tbcombo3"] = "Doglanyyl",
                     ["Tbcombo4"] = "Atasy",
@@ -77,7 +79,7 @@ namespace FrontB.Pages
                 },
                 HeaderToColumn = new Dictionary<string, string>()
                 {
-                    ["T/b"] = "Counter",
+                    ["T/b"] = "TB",
                     ["Lakamy"] = "Lakamy",
                     ["Doglan ýyly"] = "Doglanyyl",
                     ["Atasy"] = "Atasy",
@@ -90,8 +92,8 @@ namespace FrontB.Pages
                     ["Y/hat sene"] = "Ysene"
                 },
                 NullableColumns = new HashSet<string>() { "Lakamy", "Atasy", "Enesi" },
-                IntegerColumns = new HashSet<string>() { "Counter","Doglanyyl" },
-                DescendingOrderColumns = new HashSet<string>() { "Counter", "Doglanyyl", "Renki", "Jynsy", "Yhat", "Ysene" },
+                IntegerColumns = new HashSet<string>() { "TB", "Doglanyyl" },
+                DescendingOrderColumns = new HashSet<string>() { "TB", "Doglanyyl", "Renki", "Jynsy", "Yhat", "Ysene" },
                 DataGrid = dataGrid_Ahliatlar,
                 GetOriginalData = () => Horseinfo
             };
@@ -122,7 +124,25 @@ namespace FrontB.Pages
                     JournalHorsesClass? selectedItem = button.DataContext as JournalHorsesClass;
                     if (selectedItem != null)
                     {
-                        guid = selectedItem.Guid;
+                        Id = selectedItem.Id.ToString();
+                        messageWindow.tb_lakamy.Text = selectedItem.Lakamy;
+                        messageWindow.tb_doglanYyly.Text = selectedItem.Doglanyyl.ToString();
+                        messageWindow.tb_atasy.Text = selectedItem.Atasy;
+                        messageWindow.tb_enesi.Text = selectedItem.Enesi;                        
+                        messageWindow.tb_jynsy.Text = selectedItem.Jynsy;                       
+                        messageWindow.tb_ysene.Text = selectedItem.Ysene;
+                        messageWindow.tb_probnomer.Text = selectedItem.Probnomer;
+                        messageWindow.tb_biosan.Text = selectedItem.Biosan.ToString();
+                        messageWindow.Combo_biomaterial.Text = selectedItem.Biomaterial;
+                        messageWindow.tb_doglanYeri.Text = selectedItem.Eyesi;                        
+                        messageWindow.tb_nyshanlar.Text = selectedItem.Nyshanlar;
+                        messageWindow.tb_bellik.Text = selectedItem.Bellik;                        
+                        messageWindow.combo_renki.ItemsSource =MainWindow.Static_Colors;
+                        messageWindow.combo_renki.Text = selectedItem.Renki;
+                        messageWindow.tb_doglanYeri.ItemsSource = MainWindow.Static_Owners;
+                        messageWindow.tb_doglanYeri.ItemsSource = selectedItem.Eyesi;
+                        messageWindow.tb_ykrar.ItemsSource = MainWindow.Static_Blankets;
+                        messageWindow.tb_ykrar.Text = selectedItem.Yhat;
                     }
                 }
                 messageWindow.ShowDialog();                
@@ -133,8 +153,7 @@ namespace FrontB.Pages
             {
                 MessageBox.Show(ex.Message, "Bedew", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }      
-        
+        }              
         private void Searchtb_TextChanged(object sender, TextChangedEventArgs e)
             => filterHelper.Searchtb_TextChanged(sender, e);
 

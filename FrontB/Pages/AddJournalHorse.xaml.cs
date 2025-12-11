@@ -11,15 +11,12 @@ namespace FrontB.Pages
     /// Логика взаимодействия для Hasabalmak.xaml
     /// </summary>
     public partial class AddJournalHorse : Page
-    {        
-        public static ComboBox Static_ComboColors;
-        public static ComboBox Static_ComboOwners;        
+    {
+        
         public AddJournalHorse()
         {
-            InitializeComponent();            
-            Static_ComboColors= combo_renki;
-            Static_ComboOwners= tb_doglanYeri;           
-            tb_doglanyyl.Maximum = DateTime.Now.Year;
+            InitializeComponent();           
+            tb_doglanyyl.Maximum = DateTime.Now.Year;          
             SetupComboBox();          
         }       
         private void tb_ykrar_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -37,8 +34,9 @@ namespace FrontB.Pages
                 {
                     if (b.Ykrarhat == ykrar)
                     {
-                        tb_ysene.Text = b.Ysene;
-                        tb_ykrar.Tag = b.Guid;                        
+                        tb_ysene.Text = b.Sene;
+                        tb_ysene.Tag = b.Atcount;
+                        tb_ykrar.Tag = b.Id;                        
                     }
                 }
 
@@ -48,14 +46,13 @@ namespace FrontB.Pages
                 MessageBox.Show(ex.Message, "Bedew", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         private async void Hasabaalmakbtn_Click(object sender, RoutedEventArgs e)
         {
             if (tb_ykrar.Text != "" && combo_renki.SelectedIndex != -1 && tb_jynsy.SelectedIndex != -1 && Combo_biomaterial.SelectedIndex != -1 && !string.IsNullOrEmpty(tb_doglanYeri.Text))
             {
                 try
                 {   string lakamy = tb_lakamy.Text;
-                    string doglanyl = tb_doglanyyl.Value.ToString();
+                    string? doglanyl = tb_doglanyyl.Value.ToString();
                     string atasy = tb_atasy.Text;
                     string enesi = tb_enesi.Text;
                     string jynsy = tb_jynsy.Text;
@@ -66,9 +63,10 @@ namespace FrontB.Pages
                     string eyesi = tb_doglanYeri.Text;
                     string nyshanlar = tb_nyshanlar.Text;
                     string bellik = tb_bellik.Text;
-                    string guid = tb_ykrar.Tag.ToString();                   
+                    string? guid = tb_ykrar.Tag.ToString();
+                    int? atsan = Convert.ToInt32(tb_ysene.Tag.ToString());
 
-                    await Requests.Add_JournalHorses(lakamy,doglanyl,atasy,enesi,jynsy,renki,biomaterial,biosan,probnomer,eyesi,nyshanlar,bellik,guid);
+                    await Requests.Add_JournalHorses(lakamy,doglanyl,atasy,enesi,jynsy,renki,biomaterial,biosan,probnomer,eyesi,nyshanlar,bellik,guid,atsan);
                     Arassala();                   
                 }
                 catch (Exception ex)
@@ -92,52 +90,55 @@ namespace FrontB.Pages
 
         private void ComboBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
-            string typedText = comboBox.Text;
-
-            if (string.IsNullOrEmpty(typedText))
+            ComboBox? comboBox = sender as ComboBox;
+            if (comboBox != null)
             {
-                comboBox.ItemsSource = tb_doglanYeri.ItemsSource;
-                comboBox.IsDropDownOpen = false;
-                return;
-            }
+                string typedText = comboBox.Text;
 
-            if (tb_doglanYeri.ItemsSource == null)
-            {
-                comboBox.IsDropDownOpen = false;
-                return;
-            }
+                if (string.IsNullOrEmpty(typedText))
+                {
+                    comboBox.ItemsSource = tb_doglanYeri.ItemsSource;
+                    comboBox.IsDropDownOpen = false;
+                    return;
+                }
 
-            var filteredItems = tb_doglanYeri.ItemsSource
-                .Cast<string>().Where(item => item.ToLower().Contains(typedText.ToLower())).ToList();
+                if (tb_doglanYeri.ItemsSource == null)
+                {
+                    comboBox.IsDropDownOpen = false;
+                    return;
+                }
 
-            comboBox.ItemsSource = filteredItems;
+                var filteredItems = tb_doglanYeri.ItemsSource
+                    .Cast<string>().Where(item => item.ToLower().Contains(typedText.ToLower())).ToList();
 
-            if (filteredItems.Count > 0)
-            {
-                comboBox.IsDropDownOpen = true;
-            }
-            else
-            {
-                comboBox.IsDropDownOpen = false;
-            }
+                comboBox.ItemsSource = filteredItems;
 
-            TextBox textBox = comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox;
-            if (textBox != null)
-            {
-                textBox.Select(typedText.Length, 0);
+                if (filteredItems.Count > 0)
+                {
+                    comboBox.IsDropDownOpen = true;
+                }
+                else
+                {
+                    comboBox.IsDropDownOpen = false;
+                }
+
+                TextBox? textBox = comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox;
+                if (textBox != null)
+                {
+                    textBox.Select(typedText.Length, 0);
+                }
             }
         }
 
         private void ComboBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
+            ComboBox? comboBox = sender as ComboBox;
 
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && comboBox != null)
             {
                 comboBox.IsDropDownOpen = false;
             }
-            else if (e.Key == Key.Escape)
+            else if (e.Key == Key.Escape && comboBox != null)
             {
                 comboBox.IsDropDownOpen = false;
                 comboBox.SelectedIndex = -1;
@@ -146,9 +147,9 @@ namespace FrontB.Pages
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
+            ComboBox? comboBox = sender as ComboBox;
 
-            if (comboBox.SelectedItem != null)
+            if (comboBox!=null && comboBox.SelectedItem != null)
             {
                 comboBox.IsDropDownOpen = false;
             }

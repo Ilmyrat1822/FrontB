@@ -45,39 +45,39 @@ namespace FrontB.Pages
             {
                 PropertySelectors = new Dictionary<string, Func<BlanketsClass, object>>()
                 {
-                    ["Counter"] = x => x.Counter.ToString() ?? "",
+                    ["TB"] = x => x.TB.ToString() ?? "",
                     ["Yhat"] = x => x.Ykrarhat ?? "",
-                    ["Ysene"] = x => x.Ysene ?? "",
-                    ["San"] = x => x.San.ToString() ?? "",
-                    ["Atsan"] = x => x.Atsan.ToString() ?? ""
+                    ["Sene"] = x => x.Sene ?? "",
+                    ["Atsan"] = x => x.Atsan.ToString() ?? "",
+                    ["Atcount"] = x => x.Atcount.ToString() ?? ""
                 },
                 TextBoxToColumn = new Dictionary<string, string>()
                 {
-                    ["Searchtb"] = "Counter",
+                    ["Searchtb"] = "TB",
                     ["Searchtb2"] = "Yhat",
-                    ["Searchtb3"] = "Ysene",
-                    ["Searchtb4"] = "San",
-                    ["Searchtb5"] = "Atsan"
+                    ["Searchtb3"] = "Sene",
+                    ["Searchtb4"] = "Atsan",
+                    ["Searchtb5"] = "Atcount"
                 },
                 ComboBoxToColumn = new Dictionary<string, string>()
                 {
-                    ["Tbcombo"] = "Counter",
+                    ["Tbcombo"] = "TB",
                     ["Tbcombo2"] = "Yhat",
-                    ["Tbcombo3"] = "Ysene",
-                    ["Tbcombo4"] = "San",
-                    ["Tbcombo5"] = "Atsan"
+                    ["Tbcombo3"] = "Sene",
+                    ["Tbcombo4"] = "Atan",
+                    ["Tbcombo5"] = "Atcount"
                 },
                 HeaderToColumn = new Dictionary<string, string>()
                 {
-                    ["T/b"] = "Counter",
+                    ["T/b"] = "TB",
                     ["Y/hat №"] = "Yhat",
-                    ["Y/hat sene"] = "Ysene",
-                    ["At Sany"] = "San",
-                    ["Girizlen at san"] = "Atsan"
+                    ["Y/hat sene"] = "Sene",
+                    ["At Sany"] = "Atsan",
+                    ["Girizlen at san"] = "Atcount"
                 },
                 NullableColumns = new HashSet<string>() { },
-                IntegerColumns = new HashSet<string>() { "Counter", "Yhat", "San", "Atsan" },
-                DescendingOrderColumns = new HashSet<string>() { "Counter", "Yhat", "Ysene", "San", "Atsan" },
+                IntegerColumns = new HashSet<string>() { "TB", "Yhat", "Atsan", "Atcount" },
+                DescendingOrderColumns = new HashSet<string>() { "TB", "Yhat", "Sene", "Atsan", "Atcount" },
                 DataGrid = dataGrid_Ykrarhatlar,
                 GetOriginalData = () => Blank
             };
@@ -97,7 +97,7 @@ namespace FrontB.Pages
         {
             try
             {
-                if (tb_hat.Text == "" || tb_ysene.Text == null || tb_san.Text == "")
+                if (tb_hat.Text == "" || tb_ysene.Text == "" || tb_san.Text == "")
                 {
                     MessageBox.Show("Ähli boşluklary dolduryň!","Bedew",MessageBoxButton.OK,MessageBoxImage.Warning);
                     return;
@@ -106,10 +106,11 @@ namespace FrontB.Pages
                 {
                     mysqlDateFormat = tb_ysene.SelectedDate.Value.ToString("yyyy-MM-dd");
                 }
+                
                 string ykrarhat = tb_hat.Text;                
-                string san = tb_san.Text;           
-
-                await Requests.Add_Blankets(ykrarhat, mysqlDateFormat, Convert.ToInt32(san));
+                string atsan = tb_san.Text;           
+                if (mysqlDateFormat != null)      
+                await Requests.Add_Blankets(ykrarhat, mysqlDateFormat, atsan);
                 Arassala();
             }
             catch (Exception ex)
@@ -139,8 +140,8 @@ namespace FrontB.Pages
                     if (selectedItem != null)
                     {
                         tb_hat.Text = selectedItem?.Ykrarhat?.ToString();
-                        tb_ysene.SelectedDate = Convert.ToDateTime(selectedItem?.Ysene);
-                        tb_san.Text = selectedItem?.San.ToString();
+                        tb_ysene.SelectedDate = Convert.ToDateTime(selectedItem?.Sene);
+                        tb_san.Text = selectedItem?.Atsan.ToString();
 
                     }
                 }
@@ -166,11 +167,12 @@ namespace FrontB.Pages
                 {
                     mysqlDateFormat = tb_ysene.SelectedDate.Value.ToString("yyyy-MM-dd");
                 }
-                string? blanketid = Blank[dataGrid_Ykrarhatlar.SelectedIndex].Guid;
-                string? ykrarhat = tb_hat.Text;               
-                string? san = tb_san.Text;
-
-                await Requests.Update_Blankets(blanketid,ykrarhat, mysqlDateFormat, san);
+                
+                string? blanketid = Blank[dataGrid_Ykrarhatlar.SelectedIndex].Id.ToString();
+                string ykrarhat = tb_hat.Text;               
+                string san = tb_san.Text;
+                string? atsan = Blank[dataGrid_Ykrarhatlar.SelectedIndex].Atsan.ToString();
+                await Requests.Update_Blankets(blanketid,ykrarhat, mysqlDateFormat, san,atsan);
                 Arassala();
             }
             catch (Exception ex)
@@ -276,7 +278,7 @@ namespace FrontB.Pages
             {
                 try
                 {
-                    string? blanketid = Blank[dataGrid_Ykrarhatlar.SelectedIndex].Guid;
+                    string? blanketid = Blank[dataGrid_Ykrarhatlar.SelectedIndex].Id.ToString();
                     await Requests.Delete_Blanket(blanketid);
                 }
                 catch (Exception ex)
@@ -296,8 +298,8 @@ namespace FrontB.Pages
                 {
                     BlanketsClass? selectedItem = button.DataContext as BlanketsClass;
                     if (selectedItem != null)
-                    {   int counter = 0;
-                        blanketid = selectedItem.Guid;
+                    {   int tb = 0;
+                        blanketid = selectedItem.Id.ToString();
                         if (selectedItem.Horses == null || selectedItem.Horses.Count == 0)
                         {
                             MessageBox.Show("Bu ykrar hat degişli at ýok!", "Bedew", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -313,12 +315,14 @@ namespace FrontB.Pages
                         var filterItems7 = new List<string>();
                         var filterItems8 = new List<string>();
                         foreach (var horse in selectedItem.Horses)
-                        {   counter++;
-                            Horseinfo.Add(new JournalHorsesClass(counter, horse.guid, horse.lakamy, horse.doglanyyl, horse.atasy, horse.enesi,horse.jynsy, horse.renki,
-                                horse.biomaterial, horse.biosan, horse.probnomer, horse.eyesi, horse.nyshanlar, horse.bellik,selectedItem.Ykrarhat,selectedItem.Ysene));
+                        {   
+                            tb++;
+                            
+                            Horseinfo.Add(new JournalHorsesClass(horse.id, tb, horse.lakamy, horse.doglanyyl, horse.atasy, horse.enesi,horse.jynsy, horse.renki,
+                                horse.biomaterial, horse.biosan, horse.probnomer, horse.eyesi, horse.nyshanlar, horse.bellik,selectedItem.Ykrarhat,selectedItem.Sene));
                         
-                            if (!filterItems.Contains(counter))
-                                filterItems.Add(counter);
+                            if (!filterItems.Contains(tb))
+                                filterItems.Add(tb);
 
                             if (!filterItems2.Contains(horse.lakamy))
                                 filterItems2.Add(horse.lakamy);

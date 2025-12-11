@@ -50,21 +50,22 @@ namespace FrontB.Helpers
     }    
     public class Blanket
     {
-        string _guid = "";
+        public uint? id { get; set; }
+        public int? tb { get; set; }   
         string _ykrarhat = "";
-        string _ysene = "";
-        string _bellik = "";
-        public string? guid { get { return _guid; } set { if (value == null) _guid = " "; else _guid = value; } }
+        string _sene = "";
+        string _bellik = "";        
         public string? ykrarhat { get { return _ykrarhat; } set { if (value == null) _ykrarhat = " "; else _ykrarhat = value; } }
-        public string? ysene { get { return _ysene; } set { if (value == null) _ysene = " "; else _ysene = value; } }
-        public int? san { get; set; }
+        public string? sene { get { return _sene; } set { if (value == null) _sene = " "; else _sene = value; } }
         public int? atsan { get; set; }
+        public int? atcount { get; set; }
         public string? bellik { get { return _bellik; } set { if (value == null) _bellik = " "; else _bellik = value; } }
         public List<JHorses>? horses { get; set; }
     }
     public class JHorses
     {
-        string _guid = "";
+        public uint? id { get; set; }
+        public uint? tb { get; set; }
         string _lakamy = "";
         string _atasy = "";
         string _enesi = "";
@@ -75,7 +76,7 @@ namespace FrontB.Helpers
         string _eyesi = "";
         string _nyshanlar = "";
         string _bellik = "";
-        public string guid { get { return _guid; } set { if (value == null) _guid = " "; else _guid = value; } }
+       
         public string lakamy { get { return _lakamy; } set { if (value == null) _lakamy = " "; else _lakamy = value; } }
         public int? doglanyyl { get; set; }
         public string atasy { get { return _atasy; } set { if (value == null) _atasy = " "; else _atasy = value; } }
@@ -116,7 +117,8 @@ namespace FrontB.Helpers
     }
     public class JHorses2
     {
-        string _guid = "";
+        public uint? id { get; set; }
+        public uint? tb { get; set; }
         string _lakamy = "";
         string _atasy = "";
         string _enesi = "";
@@ -127,7 +129,7 @@ namespace FrontB.Helpers
         string _eyesi = "";
         string _nyshanlar = "";
         string _bellik = "";
-        public string guid { get { return _guid; } set { if (value == null) _guid = " "; else _guid = value; } }
+       
         public string lakamy { get { return _lakamy; } set { if (value == null) _lakamy = " "; else _lakamy = value; } }
         public int? doglanyyl { get; set; }
         public string atasy { get { return _atasy; } set { if (value == null) _atasy = " "; else _atasy = value; } }

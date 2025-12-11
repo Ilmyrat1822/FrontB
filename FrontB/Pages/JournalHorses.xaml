@@ -74,7 +74,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{StaticResource DataGridTextColumnStyle}" 
-                                            Text="{Binding Counter}"/>
+                                            Text="{Binding TB}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

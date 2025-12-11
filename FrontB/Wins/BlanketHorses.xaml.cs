@@ -27,7 +27,7 @@ namespace FrontB.Pages
             {
                 PropertySelectors = new Dictionary<string, Func<JournalHorsesClass, object>>()
                 {
-                    ["Counter"] = x => x.Counter.ToString()?? "",
+                    ["TB"] = x => x.TB.ToString()?? "",
                     ["Lakamy"] = x => x.Lakamy?.ToString() ?? "",
                     ["Doglanyyl"] = x => x.Doglanyyl?.ToString() ?? "",
                     ["Atasy"] = x => x.Atasy?.ToString() ?? "",
@@ -38,7 +38,7 @@ namespace FrontB.Pages
                 },
                 TextBoxToColumn = new Dictionary<string, string>()
                 {
-                    ["Searchtb"] = "Counter",
+                    ["Searchtb"] = "TB",
                     ["Searchtb2"] = "Lakamy",
                     ["Searchtb3"] = "Doglanyyl",
                     ["Searchtb4"] = "Atasy",
@@ -49,7 +49,7 @@ namespace FrontB.Pages
                 },
                 ComboBoxToColumn = new Dictionary<string, string>()
                 {
-                    ["Tbcombo"] = "Counter",
+                    ["Tbcombo"] = "TB",
                     ["Tbcombo2"] = "Lakamy",
                     ["Tbcombo3"] = "Doglanyyl",
                     ["Tbcombo4"] = "Atasy",
@@ -60,7 +60,7 @@ namespace FrontB.Pages
                 },
                 HeaderToColumn = new Dictionary<string, string>()
                 {
-                    ["T/b"] = "Counter",
+                    ["T/b"] = "TB",
                     ["Lakamy"] = "Lakamy",
                     ["Doglan ýyly"] = "Doglanyyl",
                     ["Atasy"] = "Atasy",
@@ -70,7 +70,7 @@ namespace FrontB.Pages
                     ["Eýesi we hojalygy"] = "Eyesi"
                 },
                 NullableColumns = new HashSet<string>() { "Lakamy", "Atasy", "Enesi" },
-                DescendingOrderColumns = new HashSet<string>() { "Doglanyyl", "Renki", "Jynsy" },
+                DescendingOrderColumns = new HashSet<string>() {"TB","Doglanyyl", "Renki", "Jynsy" },
                 DataGrid = dataGrid_YkrarhatAtlar,
                 GetOriginalData = () => Blankets.Horseinfo
             };
