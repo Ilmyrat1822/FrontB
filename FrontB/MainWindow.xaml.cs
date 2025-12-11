@@ -88,6 +88,7 @@ namespace FrontB
             journalHorse.tb_doglanYeri.ItemsSource = Static_Owners;
             journalHorse.tb_belgi.Value = Static_Maxid;
             Main.Content = journalHorse;
+            //comment
         }
         private async void Ahliatlarbtn_Click(object sender, RoutedEventArgs e)
         {
